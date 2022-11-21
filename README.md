@@ -7,6 +7,8 @@
 ## Problem definition
 
 ## Proposed Solution
+Considering the client requirements an adequate solution includes a low cost sensing device for humidity and temperature and a custom data script that process and anaysis the samples acquired. 
+
 **Design statement**
 
 
@@ -35,7 +37,7 @@
 ## Record of Tasks
 | Task No | Planned Action                                                | Planned Outcome                                                                                                 | Time estimate | Target completion date | Criterion |
 |---------|---------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|---------------|------------------------|-----------|
-| 1       | Create system diagram                                         | To have a clear idea of the hardware and software requirements for the proposed solution                        | 10min         | Sep 24                 | B         |
+| 1       | Write the Problem context                        | 10min         | Nov 22                 | A         |
 
 ## Test Plan
 

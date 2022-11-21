@@ -12,8 +12,12 @@
 
 ## Success Criteria
 
-1. The solution provides a visual representation of the Humidity and Temperature levels inside a dormitory and outside for a period of minimum 48 hours.
-2. 
+1. The solution provides a visual representation of the Humidity and Temperature values inside a dormitory (Local) and outside the house (Remote) for a period of minimum 48 hours.
+2. The solution provides a mathematical modelling for the Humidity and Temperature levels for each Local and Remote locations. (SL: linear model, HL: non-lineal model)
+3. The solution provides a comparative analysis for the Humidity and Temperature levels for each Local and Remote locations including mean, standad deviation, minimum, maximum, and median.
+4. (SL)The Local samples are stored in a csv file. (HL) The local samples are posted to the remote server.
+5. A user manual is provided for the solution.
+6. A poster summarizing the visual representations, model and analysis is created and communicated.
 
 # Criteria B: Design
 

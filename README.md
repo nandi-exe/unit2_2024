@@ -12,6 +12,9 @@
 
 ## Success Criteria
 
+1. The solution provides a visual representation of the Humidity and Temperature levels inside a dormitory and outside for a period of minimum 48 hours.
+2. 
+
 # Criteria B: Design
 
 ## Record of Tasks

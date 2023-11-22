@@ -35,6 +35,8 @@ Considering the budgetary constrains of the client and the hardware requirements
 5. The solution provides a prediction for the subsequent 12 hours for both temperature and humidity.
 6. The solution includes a poster summarizing the visual representations, model and analysis created. The poster includes a recommendation about healthy levels for Temperature and Humidity.
 
+_TOK Connection: To what extent does the use of data science in climate research influence our understanding of environmental issues, and what knowledge questions arise regarding the reliability, interpretation, and ethical implications of data-driven approaches in addressing climate change_
+
 # Criteria B: Design
 
 ## System Diagram **SL**

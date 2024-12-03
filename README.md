@@ -3,30 +3,38 @@
 ## Criteria A: Planning
 
 ### Problem Definition
-Our client, **Mr. X**, a boarding student at a local international school, is an avid coffee collector concerned about the potential impact of humidity on his coffee beans. Fluctuating humidity levels in his pantry have led to issues like moisture absorption, mold growth, and loss of freshness. Ensuring optimal storage conditions has become a priority to preserve the distinct characteristics of his collection.
+Our client, Mr. X, a boarding student at a local international school, is an avid coffee collector who values the rich aroma and flavor of premium coffee beans. However, he has grown increasingly concerned about the potential impact of humidity on the quality of his carefully curated collection. Fluctuating humidity levels in his pantry may lead to issues such as moisture absorption, mold growth, or a loss of freshness, all of which can compromise the beans' quality. Mr. X has already encountered some problems with declining bean quality. Ensuring the optimal storage conditions for his coffee has become a priority for Mr. X as he strives to preserve the distinct characteristics of his beans.
 
 ### Proposed Solution
-A **cost-effective and scalable solution** includes:
-- **Hardware**: A DHT11 sensor (< $5), chosen for simplicity and adequate precision (Temperature: 0–50°C, Humidity: 20–90%), paired with a Raspberry Pi Zero (starting at $10).
-- **Software**: Python for data analysis and visualization, leveraging libraries for ease of use and scalability.
+To address the client’s requirements, a cost-effective and scalable solution includes a low-cost sensing device for humidity and temperature, combined with a custom data processing script for analyzing the acquired samples. For the sensing device, an excellent choice is the DHT11[1][2][3]sensor, which is available for less than $5 and provides adequate precision and range for the application (Temperature Range: 0°C to 50°C, Humidity Range: 20% to 90%). While alternatives like the DHT22, AHT20, or AM2301B offer higher specifications, the DHT11’s simplicity, using SPI communication instead of more complex protocols like I2C, makes it a better fit for this application.
+To interface the DHT11 sensor with a computational platform, we proposed using a Raspberry Pi instead of an Arduino. The Raspberry Pi, starting at around $10 for the Raspberry Pi Zero, is a versatile, low-cost computer[4] that includes GPIO pins for direct sensor interfacing and runs a full operating system. Unlike the Arduino, which requires an additional computer to run the data processing software, the Raspberry Pi can both collect data and run the required Python scripts, consolidating the hardware into a single device. Its flexibility and computing power also make it easier to integrate additional functionalities, such as remote monitoring or cloud storage, should the client’s needs evolve.
+Considering the budgetary constraints and system requirements, the proposed software tool for this solution is Python. Python's open-source nature, platform independence, and extensive library support[5][6] make it ideal for data analysis and visualization tasks. The language’s high abstraction level simplifies development and maintenance compared to lower-level alternatives like C or C++. Python’s automatic memory management and vast ecosystem of libraries ensure efficient development and seamless scalability for future enhancements. By leveraging Python on a Raspberry Pi, the system achieves a balance of simplicity, cost-effectiveness, and flexibility to meet the client’s needs.
+
 
 ### Success Criteria
-1. Visual representation of humidity, temperature, and atmospheric pressure (HL) inside and outside over 48+ hours.
-2. Local variables measured with three sensors in the dormitory.
-3. Mathematical modeling for HL variables using linear (SL) and non-linear (HL) models.
-4. Comparative analysis of HL values (mean, std dev, min, max, median).
-5. Data storage in CSV (SL) and remote server backup (HL).
-6. Prediction of HL levels for the next 12 hours.
-7. A poster summarizing findings and recommending optimal HL levels.
+1. The solution provides a visual representation of the Humidity, Temperature and atmospheric pressure (HL) values inside a dormitory (Local) and outside the house (Remote) for a period of minimum 48 hours. [Issue tackled]: Helps Mr. X monitor and evaluate storage conditions over time to identify environmental factors impacting coffee bean quality.
+2. [HL] The local variables will be measured using a set of 3 sensors around the dormitory.
+[Issue tackled]: Ensures comprehensive and accurate data collection by covering multiple points within the dormitory, addressing variations in environmental conditions.
+3. The solution provides a mathematical modelling for the Humidity, Temperature and atmospheric pressure (HL) levels for each Local and Remote locations. (SL: linear model), (HL: non-linear model)
+[Issue tackled]: Enables Mr. X to understand trends and relationships between variables, aiding in optimizing storage conditions through predictive insights.
+4. The solution provides a comparative analysis for the Humidity, Temperature and atmospheric pressure (HL) levels for each Local and Remote locations including mean, standard deviation, minimum, maximum, and median.
+[Issue tackled]: Allows Mr. X to assess variability and stability of environmental conditions, crucial for maintaining premium coffee bean quality.
+5. (SL)The Local samples are stored in a csv file and (HL) posted to the remote server as a backup. 
+[Issue tackled]: Provides reliable data storage and backup to prevent loss of critical information, ensuring continuous monitoring.
+6. The solution provides a prediction for the subsequent 12 hours for Humidity, Temperature and atmospheric pressure (HL).
+[Issue tackled]: Assists Mr. X in preemptive action against potential environmental changes that could harm his coffee bean collection.
+7. The solution includes a poster summarizing the visual representations, model and analysis created. The poster includes a recommendation about healthy levels for Humidity, Temperature and atmospheric pressure (HL). 
+[Issue tackled]: Offers a clear and accessible summary of findings and helpful recommendations, empowering Mr. X to implement effective storage strategies.
+
 
 ---
 
 ## Criteria B: Design
-
 ### System Diagrams
-- **SL**: Local measurements with DHT11 on Arduino.
-- **HL**: Network of DHT11/BMP280 sensors with Raspberry Pi and remote server.
-- **HL+**: Enhanced system with remote work laptop and ISAK-S network API.
+![Screenshot 2024-12-03 152213](https://github.com/user-attachments/assets/beb1f900-bc76-4b80-a94e-e623dc5e248a)
+
+Fig.3 Fig. 3 System diagram (HL+) for the proposed system to visualise and analyse temperature and humidity data in our campus. Physical variables measured with a network of DHT11/BMP280 sensors locally on a Raspberry Pi. A remote server provides an API for remote monitoring and storage (192.162.6.142) via the ISAK-S network. A laptop for remote work is included.
+
 
 ### Task Planning
 | **Task No.** | **Planned Action**                                                                                                              | **Planned Outcome**                                                                                                                  | **Time Estimate** | **Target Completion** | **Criteria** |

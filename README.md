@@ -1,60 +1,66 @@
-![11e470e9022f4fc5b367429bcbb285bc](https://github.com/comsci-uwc-isak/unit2_2023/assets/53995212/1d14b1d3-ae39-4ef3-8ec9-3329630eacae)
-
 # Unit 2: A Distributed Weather Station for ISAK
 
 ## Criteria A: Planning
 
-## Problem definition
+### Problem Definition
+Our client, **Mr. X**, a boarding student at a local international school, is an avid coffee collector concerned about the potential impact of humidity on his coffee beans. Fluctuating humidity levels in his pantry have led to issues like moisture absorption, mold growth, and loss of freshness. Ensuring optimal storage conditions has become a priority to preserve the distinct characteristics of his collection.
 
-Our client, Mr. X, a student at an international school in Karuizawa, is an avid coffee collector who values the rich aroma and flavor of premium coffee beans. However, he has grown increasingly concerned about the potential impact of humidity on the quality of his carefully curated collection. Fluctuating humidity levels in his pantry may lead to issues such as moisture absorption, mold growth, or a loss of freshness, all of which can compromise the beans' quality. Ensuring the optimal storage conditions for his coffee has become a priority for Mr. X as he strives to preserve the distinct characteristics of his beans.
+### Proposed Solution
+A **cost-effective and scalable solution** includes:
+- **Hardware**: A DHT11 sensor (< $5), chosen for simplicity and adequate precision (Temperature: 0–50°C, Humidity: 20–90%), paired with a Raspberry Pi Zero (starting at $10).
+- **Software**: Python for data analysis and visualization, leveraging libraries for ease of use and scalability.
 
-## Proposed Solution
-Considering the client requirements an adequate solution includes a low cost sensing device for humidity and temperature and a custom data script that process and anaysis the samples acquired. For a low cost sensing device an adequate alternative is the DHT11 sensor[^1] which is offered online for less than 5 USD and provides adequare precision and range for the client requirements (Temperature Range: 0°C to 50°C, Humidity Range: 20% to 90%). Similar devices such as the DHT22, AHT20 or the AM2301B [^2] have higher specifications, however the DHT11 uses a simple serial communication (SPI) rather than more eleborated protocols such as the I2C used by the alternatives. For the range, precision and accuracy required in this applicaiton the DHT11 provides the best compromise. Connecting the DHT11 sensor to a computer requires a device that provides a Serial Port communication. A cheap and often used alternative for prototyping is the Arduino UNO microcontroller [^3]. "Arduino is an open-source electronics platform based on easy-to-use hardware and software"[^4]. In additon to the low cost of the Arduino (< 6USD), this devide is programable and expandable[^1]. I considered alternatives such diffeerent versions of the original Arduino but their size and price make them a less adequate solution.
+### Success Criteria
+1. Visual representation of humidity, temperature, and atmospheric pressure (HL) inside and outside over 48+ hours.
+2. Local variables measured with three sensors in the dormitory.
+3. Mathematical modeling for HL variables using linear (SL) and non-linear (HL) models.
+4. Comparative analysis of HL values (mean, std dev, min, max, median).
+5. Data storage in CSV (SL) and remote server backup (HL).
+6. Prediction of HL levels for the next 12 hours.
+7. A poster summarizing findings and recommending optimal HL levels.
 
-Considering the budgetary constrains of the client and the hardware requirements, the software tool that I proposed for this solution is Python. Python's open-source nature and platform independence contribute to the long-term viability of the system. The use of Python simplifies potential future enhancements or modifications, allowing for seamless scalability without the need for extensive redevelopment [^5][^6]. In comparison to the alternative C or C++, which share similar features, Python is a High level programming language (HLL) with high abstraction [^7]. For example, memory management is automatic in Python whereas it is responsability of the C/C++ developer to allocate and free up memory [^7], this could result in faster applications but also memory problems. In addition a HLL language will allow me and future developers extend the solution or solve issues proptly.  
+---
 
+## Criteria B: Design
 
-## Success Criteria
+### System Diagrams
+- **SL**: Local measurements with DHT11 on Arduino.
+- **HL**: Network of DHT11/BMP280 sensors with Raspberry Pi and remote server.
+- **HL+**: Enhanced system with remote work laptop and ISAK-S network API.
 
-[^1]: Industries, Adafruit. “DHT11 Basic Temperature-Humidity Sensor + Extras.” Adafruit Industries Blog RSS, https://www.adafruit.com/product/386. 
-[^2]: Nelson, Carter. “Modern Replacements for DHT11 and dht22 Sensors.” Adafruit Learning System, https://learn.adafruit.com/modern-replacements-for-dht11-dht22-sensors/what-are-better-alternatives.   
-[^3]:“How to Connect dht11 Sensor with Arduino Uno.” Arduino Project Hub, https://create.arduino.cc/projecthub/pibots555/how-to-connect-dht11-sensor-with-arduino-uno-f4d239.  
-[^4]:Team, The Arduino. “What Is Arduino?: Arduino Documentation.” Arduino Documentation | Arduino Documentation, https://docs.arduino.cc/learn/starting-guide/whats-arduino.  
-[^5]:Tino. “Tino/PyFirmata: Python Interface for the Firmata (Http://Firmata.org/) Protocol. It Is Compliant with Firmata 2.1. Any Help with Updating to 2.2 Is Welcome. the Capability Query Is Implemented, but the Pin State Query Feature Not Yet.” GitHub, https://github.com/tino/pyFirmata. 
-[^6]:Python Geeks. “Advantages of Python: Disadvantages of Python.” Python Geeks, 26 June 2021, https://pythongeeks.org/advantages-disadvantages-of-python/. 
-[^7]: Real Python. “Python vs C++: Selecting the Right Tool for the Job.” Real Python, Real Python, 19 June 2021, https://realpython.com/python-vs-cpp/#memory-management. 
-
-1. The solution provides a visual representation of the Humidity, Temperature and atmospheric pressure (HL) values inside a dormitory (Local) and outside the house (Remote) for a period of minimum 48 hours. ```** [Issue tacled] **: fill in here```
-1. ```[HL]``` The local variables will be measure using a set of 3 sensors around the dormitory.```** [Issue tacled] **: fill in here```
-2. The solution provides a mathematical modelling for the Humidity, Temperature and atmospheric pressure (HL) levels for each Local and Remote locations. ```(SL: linear model)```, ```(HL: non-lineal model)``` ```** [Issue tacled] **: fill in here```
-3. The solution provides a comparative analysis for the Humidity, Temperature and atmospheric pressure (HL) levels for each Local and Remote locations including mean, standad deviation, minimum, maximum, and median. ```** [Issue tacled] **: fill in here```
-4. ```(SL)```The Local samples are stored in a csv file and ```(HL)``` posted to the remote server as a backup. ```** [Issue tacled] **: fill in here```
-5. The solution provides a prediction for the subsequent 12 hours for Humidity, Temperature and atmospheric pressure (HL). ```** [Issue tacled] **: fill in here```
-6. The solution includes a poster summarizing the visual representations, model and analysis created. The poster includes a recommendation about healthy levels for Humidity, Temperature and atmospheric pressure (HL). ```** [Issue tacled] **: fill in here```
-
-
-# Criteria B: Design
-
-## System Diagram **HL**
-
-![System Diagrams unit 2 (2)](https://github.com/user-attachments/assets/36775cba-6730-45d3-bccb-57b4d8a8179d)
-
-**Fig.3** Fig. 3 System diagram (HL+) for the proposed system to visualize and analyze temperature and humidity data in our campus. Physical variables measured with a network of DHT11/BMP280 sensors locally on a Raspberry Pi. A remote server provides and API for remote monitoring and storage (192.162.6.142) via the ISAK-S network. A laptop for remote work is included.
-
-## Record of Tasks
-| Task No | Planned Action                                                | Planned Outcome                                                                                                 | Time estimate | Target completion date | Criterion |
-|---------|---------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|---------------|------------------------|-----------|
-| 1       | Write the Problem context                        | 10min         | Nov 22                 | A         |
-
-## Test Plan
-
-# Criteria C: Development
-
-## List of techniques used
-
-## Development
+### Task Planning
+| **Task No.** | **Planned Action**                                                                                                              | **Planned Outcome**                                                                                                                  | **Time Estimate** | **Target Completion** | **Criteria** |
+|--------------|------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|-------------------|-----------------------|--------------|
+| 1            | Take information from Dr. Ruben's GitHub                                                                                      | To have the proposed solution, success criteria, and system diagram                                                                 | 15 min            | Nov 16                | A, B         |
+| 2            | Working on the problem definition and design statement                                                                            | To have a general view on the sensors needed, expected data, and the purpose of both local and remote measurements                  | 30 min            | Nov 17                | A            |
+| 3            | Creating shared repository on GitHub                                                                                            | To have a centralized location for the project, including system diagrams, code, and data                                           | 10 min            | Nov 17                | B            |
+| 4            | Setting up Raspberry Pi for sensor data collection (3 sensors for local measurements)                                             | To ensure the Raspberry Pi is able to collect Humidity, Temperature, and Atmospheric Pressure data locally in the dormitory         | 1 hour            | Nov 19                | C            |
+| 5            | Working on functions for the code (Sensor data collection)                                                                       | To have modular functions that handle sensor data collection for each sensor individually, allowing clear code structure            | 3 hours           | Nov 21                | C            |
+| 6            | Programming Raspberry Pi to collect data from 3 sensors                                                                           | To ensure that the Raspberry Pi can handle data collection from all 3 sensors, ensuring accurate local measurements                 | 1 hour            | Nov 23                | C            |
+| 7            | Setting up the connection between local sensors                                                                                   | To test and verify connections between sensors on the Raspberry Pi to ensure proper data flow                                       | 45 min            | Nov 25                | C            |
+| 8            | Testing sensor setup and reading local data                                                                                      | To ensure the sensors are correctly placed around the dormitory and data collection is accurate (Humidity, Temperature, and Atmospheric Pressure) | 30 min            | Nov 25                | C, B         |
+| 9            | Storing local data in CSV format                                                                                                 | To ensure local data is saved in CSV files for later analysis                                                                        | 1 hour            | Nov 27                | C, SL        |
+| 10           | Setting up cron jobs to run data collection every 5 minutes                                                                     | To automate the data collection process and ensure continuous data logging for 48+ hours                                            | 1 hour            | Nov 27                | C            |
+| 11           | Uploading local data to remote server                                                                                           | To back up local data by sending it to a remote server for safekeeping and further analysis                                          | 30 min            | Nov 29                | C, HL        |
+| 12           | Working on mathematical modeling for Humidity, Temperature, and Atmospheric Pressure                                           | To model the data collected, focusing on a non-linear model for local and remote locations                                          | 3 hours           | Nov 30                | HL           |
+| 13           | Running comparative analysis of local and remote data                                                                           | To analyze the data, comparing mean, standard deviation, minimum, maximum, and median for Humidity, Temperature, and Atmospheric Pressure | 2 hours           | Dec 1                 | HL           |
+| 14           | Prediction for the next 12 hours                                                                                                | To develop a predictive model for future Humidity, Temperature, and Atmospheric Pressure based on past data                         | 2 hours           | Dec 2                 | HL           |
+| 15           | Creating visual representation of the data (graphs for local and remote locations)                                              | To visually represent the collected data for Humidity, Temperature, and Atmospheric Pressure                                        | 3 hours           | Dec 2                 | C, HL        |
+| 16           | Analyzing and upgrading the graphs for better clarity                                                                           | To improve the visualizations, ensuring they are easy to interpret and contain necessary labels and trends                         | 2 hours           | Dec 4                 | C            |
+| 17           | Creating flow diagrams for the code structure                                                                                   | To have a clear representation of the logic and flow of the code for future improvements and understanding                          | 1 hour            | Dec 5                 | B            |
+| 18           | Designing the project poster                                                                                                   | To summarize the visual representations, mathematical models, and analysis. Include healthy level recommendations for Humidity, Temperature, and Atmospheric Pressure | 2 hours           | Dec 5                 | D            |
+| 19           | Video outline creation for presentation                                                                                        | To determine the content and structure of the video presentation for the final results                                               | 20 min            | Dec 5                 | D            |
+| 20           | Working on the final documentation                                                                                              | To document the entire project, including code, methods, data analysis, and conclusions                                             | 1 hour            | Dec 6                 | A, B, C      |
+| 21           | Completing the poster with final results and recommendations                                                                   | To finalize the poster for presentation, ensuring clarity in visual data, models, and suggestions for healthy levels                | 4 hours           | Dec 7                 | D            |
+| 22           | Recording and editing the project video                                                                                        | To produce a video summarizing the data collection, analysis, models, and the poster presentation                                  | 2 hours           | Dec 7                 | D            |
 
 
-# Criteria D: Functionality
+---
 
-A 7 min video demonstrating the proposed solution with narration
+## Criteria C: Development
+
+### Techniques Used
+- Moving average for noise filtering.
+- Data visualization using Matplotlib.
+- API connections for data transmission.
+- Predictive modeling of HL variables.

@@ -31,8 +31,8 @@ Considering the budgetary constraints and system requirements, the proposed soft
 
 ## Criteria B: Design
 ### System Diagrams
-![Screenshot 2024-12-03 152213](https://github.com/user-attachments/assets/beb1f900-bc76-4b80-a94e-e623dc5e248a)
 
+![systemdiagram](https://github.com/user-attachments/assets/dba28917-4f10-44b0-898e-e894d8960afa)
 Fig.3 Fig. 3 System diagram (HL+) for the proposed system to visualise and analyse temperature and humidity data in our campus. Physical variables measured with a network of DHT11/BMP280 sensors locally on a Raspberry Pi. A remote server provides an API for remote monitoring and storage (192.162.6.142) via the ISAK-S network. A laptop for remote work is included.
 
 

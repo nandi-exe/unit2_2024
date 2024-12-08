@@ -294,7 +294,7 @@ plt.show()
 Conclusion**
 This script ensures data integrity, fits appropriate models to sensor readings, and visualizes the data effectively. 
 
-### Main code inside Raspberry Pi: Success criteria 2
+### Main code inside Raspberry Pi: Success criteria 2 & 5
 ```.py
 # Import necessary libraries
 import os  # For file operations
@@ -494,3 +494,4 @@ A 7 min video demonstrating the proposed solution with narration
 7. Real Python. “Python vs C++: Selecting the Right Tool for the Job.” Real Python, Real Python, 19 June 2021, https://realpython.com/python-vs-cpp/#memory-management. ↩ ↩2
 8. Tino. “Tino/PyFirmata: Python Interface for the Firmata (Http://Firmata.org/) Protocol. It Is Compliant with Firmata 2.1. Any Help with Updating to 2.2 Is Welcome. the Capability QueryIs Implemented, but the Pin State Query Feature Not Yet.” GitHub, https://github.com/tino/pyFirmata. ↩
 9. Python Geeks. “Advantages of Python: Disadvantages of Python.” Python Geeks, 26 June 2021, https://pythongeeks.org/advantages-disadvantages-of-python/. ↩
+10. Espresso Outlet. (2024, September 27). Effects of Storage Conditions on Green Coffee Bean Quality: Investigating the Impact of Temperature, Humidity, and Storage Duration on Physical and Chemical Stability. Espresso Outlet LLC. https://espressooutlet.com/blogs/news/effects-of-storage-conditions-on-green-coffee-bean-quality-investigating-the-impact-of-temperature-humidity-and-storage-duration-on-physical-and-chemical-stability#:~:text=Degradation%20of%20Volatile%20Compounds%3A%20High,a%20less%20aromatic%20and%20less

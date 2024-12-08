@@ -557,7 +557,11 @@ plt.grid(True)  # Add a grid
 plt.tight_layout()  # Adjust subplot spacing
 plt.show()  # Display all the plots
 ```
-### Statistical Analysis of Sensor Data
+<img width="1197" alt="Screenshot 2024-12-09 at 7 22 54" src="https://github.com/user-attachments/assets/7ede14b4-331d-47a7-811d-460fae3555c2">
+<img width="1201" alt="Screenshot 2024-12-09 at 7 23 27" src="https://github.com/user-attachments/assets/8dc56434-f799-487c-8d1a-7512bf3705ab">
+
+
+### Statistical Analysis of Sensor Data: Success Criteria 3
 
 Upon the collection of all the sensor data, we developed a function that calculated and collected statistical information, comprising of the mean, maximum, minimum and standard deviation.
 
@@ -662,6 +666,119 @@ def analyze_sensor_data(sensor_data):
         "max": max_value                    # Maximum value
     }
 ```
+### Code for prediction: Success Criteria 6
+```.py
+# Import necessary libraries
+import pandas as pd  # For data manipulation and handling time-series data
+import numpy as np  # For numerical operations
+import matplotlib.pyplot as plt  # For plotting and visualization
+from numpy.polynomial.polynomial import Polynomial  # For fitting polynomial trends
+import matplotlib  # For additional visualization settings
+
+# Step 1: Define the dataset
+# Historical sensor readings for temperature, humidity, and pressure from two sensors (BME and DHT).
+# Example lists (replace `...` with actual data):
+BME_Temp = [22.72, 22.75, ...]  # Temperature readings from the BME sensor
+BME_Hum = [32.29, 32.35, ...]  # Humidity readings from the BME sensor
+BME_Pressure = [881.33, 881.42, ...]  # Pressure readings from the BME sensor
+DHT_Temp = [21.9, 22.1, 22.3, ...]  # Temperature readings from the DHT sensor
+DHT_Hum = [31.5, 32.9, ...]  # Humidity readings from the DHT sensor
+
+# Step 2: Create a DataFrame for time-series analysis
+# Organizing the BME sensor data into a pandas DataFrame with a time index.
+data = pd.DataFrame({
+    'BME_Temp': BME_Temp,
+    'BME_Hum': BME_Hum,
+    'BME_Pressure': BME_Pressure
+}, index=pd.date_range(start='2024-12-01', periods=len(BME_Temp), freq='h'))  # Time index in hourly intervals
+
+# Step 3: Define an Auto-Regressive (AR) Model
+# The AR model predicts the next 12 hours of readings for each column based on the mean of the last `lags` values.
+def ar_model(data, lags=1):
+    """
+    Predict the next 12 time steps using a simple Auto-Regressive (AR) model.
+    Parameters:
+        - data: A DataFrame containing time-series data.
+        - lags: Number of past time steps to use for forecasting.
+    Returns:
+        - forecast: A dictionary with predictions for each column in the data.
+    """
+    forecast = {}  # Dictionary to store forecasts for each column
+    for col in data.columns:
+        forecast[col] = []  # Initialize an empty list for the current column's forecast
+        last_values = data[col].iloc[-lags:].values  # Get the last `lags` values as input for forecasting
+        
+        # Generate 12 forecasted values
+        for _ in range(12):
+            next_value = np.mean(last_values)  # Simple prediction: average of the last `lags` values
+            forecast[col].append(next_value)  # Append the forecasted value
+            last_values = np.append(last_values[1:], next_value)  # Update input values for the next prediction
+    return forecast
+
+# Step 4: Generate forecasts using the AR model
+lags = 1  # Use the last 1 time step for predictions
+forecast = ar_model(data[['BME_Temp', 'BME_Hum', 'BME_Pressure']], lags)
+
+# Step 5: Create a future time index for the forecasts
+# Time index for the next 12 hours based on the last timestamp in the data
+future_index = pd.date_range(start=data.index[-1] + pd.Timedelta(hours=1), periods=12, freq='h')
+
+# Step 6: Define a function to plot predictions and trends
+def plot_with_trend(x_actual, y_actual, x_forecast, y_forecast, title, xlabel='Time', ylabel='Value', degree=2):
+    """
+    Plot actual and predicted data with polynomial trendlines.
+    Parameters:
+        - x_actual: Time index for the actual data.
+        - y_actual: Actual data values.
+        - x_forecast: Time index for the forecasted data.
+        - y_forecast: Forecasted data values.
+        - title: Title of the plot.
+        - xlabel: Label for the x-axis.
+        - ylabel: Label for the y-axis.
+        - degree: Degree of the polynomial for trend fitting.
+    """
+    plt.figure(figsize=(10, 6))  # Set figure size
+    
+    # Plot actual data
+    plt.plot(x_actual, y_actual, label='Actual', alpha=0.7)
+    
+    # Plot forecasted data
+    plt.plot(x_forecast, y_forecast, label='Predicted', linestyle='dashed')
+    
+    # Fit and plot polynomial trend for actual data
+    x_numeric_actual = np.arange(len(x_actual))  # Convert time index to numeric values
+    poly_actual = Polynomial.fit(x_numeric_actual, y_actual, degree)  # Fit polynomial
+    plt.plot(x_actual, poly_actual(x_numeric_actual), label='Actual Trend', linestyle='dotted', color='red')
+    
+    # Fit and plot polynomial trend for forecasted data
+    x_numeric_forecast = np.arange(len(x_forecast)) + len(x_numeric_actual)  # Numeric indices for forecast
+    poly_forecast = Polynomial.fit(x_numeric_forecast, y_forecast, degree)  # Fit polynomial
+    plt.plot(x_forecast, poly_forecast(x_numeric_forecast), label='Forecast Trend', linestyle='dotted', color='green')
+    
+    # Add title, labels, and legend
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.legend()
+    plt.show()
+
+# Step 7: Visualize the predictions with trends
+# Generate plots for each column in the forecast
+for col in forecast:
+    plot_with_trend(
+        x_actual=data.index,  # Time index of the actual data
+        y_actual=data[col],  # Actual data values
+        x_forecast=future_index,  # Time index of the forecasted data
+        y_forecast=forecast[col],  # Forecasted data values
+        title=f'{col} Prediction with Trend',  # Plot title
+        degree=2  # Polynomial degree for trend fitting
+    )
+```
+<img width="992" alt="Screenshot 2024-12-09 at 7 24 36" src="https://github.com/user-attachments/assets/268c1d09-b3f5-43a5-81d2-fcfd16c419cb">
+<img width="998" alt="Screenshot 2024-12-09 at 7 25 03" src="https://github.com/user-attachments/assets/5aeba116-6a3d-41d1-89ab-596a454f9b9b">
+<img width="998" alt="Screenshot 2024-12-09 at 7 25 25" src="https://github.com/user-attachments/assets/c8224720-cb1c-4422-bb46-437e047c275f">
+
+
 
 ## Criteria D: Functionality
 A 7 min video demonstrating the proposed solution with narration

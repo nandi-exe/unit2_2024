@@ -39,6 +39,8 @@ To address Mr. X's concerns about the impact of fluctuating humidity on his coff
 ![systemdiagram](https://github.com/user-attachments/assets/dba28917-4f10-44b0-898e-e894d8960afa)
 Fig.3 Fig. 3 System diagram (HL+) for the proposed system to visualize and analyze temperature and humidity data in our campus. Physical variables were measured locally with a network of DHT11/BMP280 sensors on a Raspberry Pi. A remote server provides an API for remote monitoring and storage (192.162.6.142) via the ISAK-S network. A laptop for remote work is included.
 
+### How is the data stored and managed?
+The collected data is stored locally in a CSV file for structured access and offline analysis. This format allows for easy reading, modification, and integration with data-processing tools. To ensure data persistence and accessibility, the CSV data is periodically uploaded to an API server. This two-tiered approach balances local storage for quick access with remote storage for backup and broader analysis, providing a reliable and scalable system for managing the collected environmental data.
 
 ### Record of Tasks
 | Task No | Planned Action                                | Planned Outcome                                                    | Time Estimate | Target Completion Date | Criteria   |
@@ -71,14 +73,30 @@ Fig.3 Fig. 3 System diagram (HL+) for the proposed system to visualize and analy
 
 ### List of techniques used
 #### Core Techniques
-1. Moving average for filtering noisy signals from sensors(with for loops inside)
-2. Data visualization
-3. Connecting to server using API
-4. Data models
-5. File reading and modification
-6. Registering and Login into API
-7. Transmission of data to API servers
-8. Accessing API data and readings
+**1. Moving average for filtering noisy signals from sensors(with for loops inside)
+**
+Used to smooth sensor data and enhance model accuracy.
+**2. Data visualization
+**
+Visualizing trends and patterns in collected data for analysis.
+**3. Connecting to server using API
+**
+Establishing communication between the client and server for data exchange.
+**4. Data models
+**
+Implementing mathematical models for prediction and analysis.
+**5. File reading and modification
+**
+Handling CSV files for storing and accessing sensor data.
+**6. Registering and Login into API
+**
+Managing user authentication and token-based access.
+**7. Transmission of data to API servers
+**
+Sending serialized sensor data to a remote server.
+**8. Accessing API data and readings
+**
+Fetching stored data for local use and further analysis.
 #### Programming Constructs
 1. Functions
 2. Lists and Dictionaries
@@ -87,17 +105,26 @@ Fig.3 Fig. 3 System diagram (HL+) for the proposed system to visualize and analy
 5. Try-except statement
 6. If-else conditional statement
 #### Libraries
-1. os
-2. time
-3. csv
-4. requests
-5. Adafruit - DHT11
-6. bme280
-7. smbus2
-8. datetime
-9. matplotlib
-10. numpy
-
+**1. os
+**For interacting with the operating system, e.g., file paths.
+**2. time
+**For delays and timestamp-related operations.
+**3. csv
+**Reading from and writing to CSV files for structured data storage.
+**4. requests
+**Making HTTP requests for API interactions.
+**5. Adafruit - DHT11
+**Accessing temperature and humidity readings from the DHT11 sensor.
+**6. bme280
+**Reading temperature, humidity, and pressure from the BME280 sensor.
+**7. smbus2
+**Reading temperature, humidity, and pressure from the BME280 sensor.
+**8. datetime
+**Managing date and time information for data logging.
+**9. matplotlib
+**Creating graphs and visualizations for data analysis.
+**10. numpy
+**Performing numerical computations and data manipulation.
 
 ## Criteria D: Functionality
 A 7 min video demonstrating the proposed solution with narration

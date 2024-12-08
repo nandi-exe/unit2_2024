@@ -41,13 +41,15 @@ Fig. 3 System diagram (HL+) for the proposed system to visualize and analyze tem
 
 ### Flow Diagram 1
 ![image](https://github.com/user-attachments/assets/c4886776-946e-4fa2-8f90-9ce32af0a45c)
-Sensor registration code, specifically DHT Temperature.
+Fig 1.1: Sensor registration code, specifically DHT Temperature.
 ### Flow Diagram 2
+![image](https://github.com/user-attachments/assets/af8eda74-9a3a-46e0-b612-4b913ffbdccb)
 
-Code for uploading data to server.
+Fig1.2: Code for uploading data to server.
 
 ### Flow Diagram 3
-
+![image](https://github.com/user-attachments/assets/8c95ecbe-df9c-4ce2-a2ef-bdda07354d5e)
+Fig 1.3: 
 
 ### How is the data stored and managed?
 The collected data is stored locally in a CSV file for structured access and offline analysis. This format allows for easy reading, modification, and integration with data-processing tools. To ensure data persistence and accessibility, the CSV data is periodically uploaded to an API server. This two-tiered approach balances local storage for quick access with remote storage for backup and broader analysis, providing a reliable and scalable system for managing the collected environmental data.

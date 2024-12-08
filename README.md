@@ -328,68 +328,27 @@ REMOTE_SERVER_URL = "192.168.4.137"  # Server's IP address
 server_ip = "192.168.4.137"
 user = {'username': 'UNANDI', 'password': 'nananandi08'}
 
-# Function to estimate DHT11 readings based on BME280 values
-def estimate_dht11_readings(temperature_bme, humidity_bme):
-    """
-    Estimate DHT11 temperature and humidity readings using BME280 values.
-    This is used as a fallback when DHT11 data isn't directly read.
-    """
-    try:
-        # Generate random offsets to simulate DHT11 readings
-        temp_offset = random.uniform(0.1, 0.9)  # Random offset for temperature
-        humidity_offset = random.uniform(0.1, 0.9)  # Random offset for humidity
-
-        # Apply the offsets randomly as addition or subtraction
-        temperature_dht = temperature_bme + temp_offset if random.choice([True, False]) else temperature_bme - temp_offset
-        humidity_dht = humidity_bme + humidity_offset if random.choice([True, False]) else humidity_bme - humidity_offset
-
-        # Round to match DHT11 sensor's typical precision (1 decimal place)
-        temperature_dht = round(temperature_dht, 1)
-        humidity_dht = round(humidity_dht, 1)
-
-        return temperature_dht, humidity_dht
-    except Exception as e:
-        print(f"Error estimating DHT11 readings: {e}")
-        return None, None
-
-# Function to initialize the BME280 sensor
-def initialize_bme280():
-    """
-    Initialize the BME280 sensor.
-    """
-    try:
-        port = 1  # Default I2C port for Raspberry Pi
-        address = 0x76  # Default I2C address for BME280
-        bus = smbus2.SMBus(port)  # Initialize I2C communication
-        bme280.load_calibration_params(bus, address)  # Load calibration data
-        return bus, address
-    except Exception as e:
-        print(f"Error initializing BME280: {e}")
-        return None, None
-
-# Function to collect data from the sensors
 def collect_sensor_data(dht_pin, bme_bus, bme_address):
-    """
-    Collect temperature, humidity, and pressure data from both DHT11 and BME280 sensors.
-    """
     try:
+        # Read data from DHT11
+        humidity_dht, temperature_dht = read_retry(DHT11, dht_pin)
+
+        if humidity_dht is None or temperature_dht is None:
+            raise ValueError("Failed to read data from DHT11 sensor.")
+
         # Read data from BME280
         bme_data = bme280.sample(bme_bus, bme_address)
         temperature_bme = bme_data.temperature
         humidity_bme = bme_data.humidity
         pressure = bme_data.pressure
 
-        # Estimate DHT11 readings based on BME280 values
-        temperature_dht, humidity_dht = estimate_dht11_readings(temperature_bme, humidity_bme)
-
-        # Get the current time
+        # Current datetime
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # Organize data into a dictionary
         data = {
             "datetime": current_time,
-            "temperature_dht": round(temperature_dht, 2) if temperature_dht else None,
-            "humidity_dht": round(humidity_dht, 2) if humidity_dht else None,
+            "temperature_dht": round(temperature_dht, 2),
+            "humidity_dht": round(humidity_dht, 2),
             "temperature_bme": round(temperature_bme, 2),
             "humidity_bme": round(humidity_bme, 2),
             "pressure": round(pressure, 2)
@@ -398,6 +357,8 @@ def collect_sensor_data(dht_pin, bme_bus, bme_address):
     except Exception as e:
         print(f"Error collecting sensor data: {e}")
         return None
+
+
 
 # Function to save sensor data to a CSV file
 def save_to_csv(data, file_path):

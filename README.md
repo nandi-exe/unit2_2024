@@ -39,6 +39,16 @@ To address Mr. X's concerns about the impact of fluctuating humidity on his coff
 ![systemdiagram](https://github.com/user-attachments/assets/dba28917-4f10-44b0-898e-e894d8960afa)
 Fig. 3 System diagram (HL+) for the proposed system to visualize and analyze temperature and humidity data in our campus. Physical variables were measured locally with a network of DHT11/BMP280 sensors on a Raspberry Pi. A remote server provides an API for remote monitoring and storage (192.162.6.142) via the ISAK-S network. A laptop for remote work is included.
 
+### Flow Diagram 1
+![image](https://github.com/user-attachments/assets/c4886776-946e-4fa2-8f90-9ce32af0a45c)
+Sensor registration code, specifically DHT Temperature.
+### Flow Diagram 2
+
+Code for uploading data to server.
+
+### Flow Diagram 3
+
+
 ### How is the data stored and managed?
 The collected data is stored locally in a CSV file for structured access and offline analysis. This format allows for easy reading, modification, and integration with data-processing tools. To ensure data persistence and accessibility, the CSV data is periodically uploaded to an API server. This two-tiered approach balances local storage for quick access with remote storage for backup and broader analysis, providing a reliable and scalable system for managing the collected environmental data.
 

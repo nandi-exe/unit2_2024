@@ -8,10 +8,10 @@ DHT_Hum= [31.5, 32.9, 32.2, 32.7, 31.6, 33.2, 33.3, 33.0, 33.0, 32.3, 33.4, 33.2
 
 def standard_deviation(sensor_data):
     """
-    Calculate the standard deviation of a list of sensor data values.
+    Calculate the standard deviation, mean, and variance of a list of sensor data values.
 
     :param sensor_data: List of numerical values (sensor readings)
-    :return: Standard deviation of the data
+    :return: Tuple containing (standard deviation, mean, variance)
     """
     if len(sensor_data) == 0:
         return None  # Return None for empty data list
@@ -23,19 +23,20 @@ def standard_deviation(sensor_data):
     variance = sum((x - mean_value) ** 2 for x in sensor_data) / len(sensor_data)
 
     # Step 3: Calculate the standard deviation
-    standard_deviation = math.sqrt(variance)
+    std_dev = math.sqrt(variance)
 
-    return standard_deviation
+    return std_dev, mean_value, variance
 
 
 # Example sensor data
 sensor_data = [23.5, 24.7, 22.1, 25.6, 23.9, 24.2]
 
 # Calculate and print standard deviation
-std_dev = standard_deviation(sensor_data)
-if std_dev is not None:
+result = standard_deviation(sensor_data)
+if result is not None:
+    std_dev, mean_value, variance = result
     print(f"Standard Deviation: {std_dev:.2f}")
+    print(f"Mean: {mean_value:.2f}")
+    print(f"Variance: {variance:.2f}")
 else:
     print("Sensor data is empty.")
-
-

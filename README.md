@@ -291,7 +291,7 @@ plt.show()
 Conclusion**
 This script ensures data integrity, fits appropriate models to sensor readings, and visualizes the data effectively. 
 
-### Main code inside Raspberry Pi
+### Main code inside Raspberry Pi: Success criteria 2
 ```.py
 # Import necessary libraries
 import os  # For file operations

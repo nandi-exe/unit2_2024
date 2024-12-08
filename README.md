@@ -84,29 +84,21 @@ The collected data is stored locally in a CSV file for structured access and off
 
 ### List of techniques used
 #### Core Techniques
-**1. Moving average for filtering noisy signals from sensors(with for loops inside)
-**
+1. Moving average for filtering noisy signals from sensors(with for loops inside)
 Used to smooth sensor data and enhance model accuracy.
-**2. Data visualization
-**
+2. Data visualization
 Visualizing trends and patterns in collected data for analysis.
-**3. Connecting to server using API
-**
+3. Connecting to server using API
 Establishing communication between the client and server for data exchange.
-**4. Data models
-**
+4. Data models
 Implementing mathematical models for prediction and analysis.
-**5. File reading and modification
-**
+5. File reading and modification
 Handling CSV files for storing and accessing sensor data.
-**6. Registering and Login into API
-**
+6. Registering and Login into API
 Managing user authentication and token-based access.
-**7. Transmission of data to API servers
-**
+7. Transmission of data to API servers
 Sending serialized sensor data to a remote server.
-**8. Accessing API data and readings
-**
+8. Accessing API data and readings
 Fetching stored data for local use and further analysis.
 #### Programming Constructs
 1. Functions

@@ -605,6 +605,60 @@ Once collected, we used the figures found to summarize out findings in a table
 | DHT Humidity    | 372       | 34.17  | 48.6    | 28.0    | 2.4021             |
 
 
+### Comparative analysis for the Humidity, Temperature, and atmospheric pressure levels for each Local and Remote location including mean, standard deviation, minimum, maximum, and median
+```.py
+# Example sensor data for temperature, humidity, and pressure collected from two sensors (BME280 and DHT11)
+BME_Temp = [22.72, 22.75, 22.76, ...]       # Temperature readings (°C) from the BME280 sensor
+BME_Hum = [32.29, 32.35, 32.32, ...]        # Humidity readings (%) from the BME280 sensor
+BME_Pressure = [881.33, 881.42, 881.41, ...] # Pressure readings (hPa) from the BME280 sensor
+DHT_Temp = [21.9, 22.1, 22.3, ...]          # Temperature readings (°C) from the DHT11 sensor
+DHT_Hum = [31.5, 32.9, 32.2, ...]           # Humidity readings (%) from the DHT11 sensor
+
+# Function to analyze a given list of sensor data
+def analyze_sensor_data(sensor_data):
+    """
+    Analyzes a list of sensor data and returns key statistics: mean, standard deviation, minimum, and maximum.
+
+    Parameters:
+    sensor_data (list): List of numerical sensor readings.
+
+    Returns:
+    dict: A dictionary containing the mean, standard deviation, minimum, and maximum of the sensor data.
+          If the input list is empty, returns None for all statistics.
+    """
+
+    # Check if the input data list is empty
+    if not sensor_data:
+        # If the list is empty, return a dictionary with None for all statistics
+        return {"mean": None, "std_dev": None, "min": None, "max": None}
+
+    # Calculate the mean (average) of the sensor data
+    total = sum(sensor_data)               # Sum of all data points
+    count = len(sensor_data)              # Number of data points
+    mean = round(total / count)           # Compute mean and round to the nearest integer
+
+    # Calculate the standard deviation (measure of data spread)
+    # Variance is the average of the squared differences from the mean
+    variance = (
+        sum((x - mean) ** 2 for x in sensor_data) / (count - 1)
+        if count > 1                        # Avoid division by zero for a single data point
+        else 0                              # Variance is 0 when there's only one data point
+    )
+    std_dev = variance ** 0.5               # Standard deviation is the square root of the variance
+
+    # Find the minimum and maximum values in the data
+    min_value = min(sensor_data)            # Minimum value in the data
+    max_value = max(sensor_data)            # Maximum value in the data
+
+    # Return the calculated statistics in a dictionary
+    return {
+        "mean": mean,                       # Mean of the data
+        "std_dev": std_dev,                 # Standard deviation of the data
+        "min": min_value,                   # Minimum value
+        "max": max_value                    # Maximum value
+    }
+```
+
 ## Criteria D: Functionality
 A 7 min video demonstrating the proposed solution with narration
 

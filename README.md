@@ -452,6 +452,108 @@ if __name__ == "__main__":
     main()
 ```
 
+### Data Collection and Sorting (Local part): Success criteria 1
+```.py
+# Import necessary library
+import matplotlib.pyplot as plt  # Used for creating plots and visualizing data
+
+# Sensor data lists, each containing a series of recorded values (example data is shown)
+# Replace these ellipses with actual sensor readings
+BME_Temp = [22.8, 22.1, ...]  # BME280 sensor temperature readings (in degrees Celsius)
+BME_Pressure = [1008.2, 1007.6, ...]  # BME280 sensor pressure readings (in hPa)
+BME_Humidity = [45.2, 46.8, ...]  # BME280 sensor humidity readings (in percentage)
+DHT_Temp = [23.1, 22.5, ...]  # DHT11 sensor temperature readings (in degrees Celsius)
+DHT_Humidity = [47.3, 48.1, ...]  # DHT11 sensor humidity readings (in percentage)
+
+# Extract the last 2880 values from each dataset
+# This assumes the dataset contains values over a continuous interval (e.g., minutes, hours, etc.)
+recent_temp_bme = BME_Temp[-2880:]  # Latest 2880 temperature readings from BME280
+recent_hum_bme = BME_Humidity[-2880:]  # Latest 2880 humidity readings from BME280
+recent_hpa_bme = BME_Pressure[-2880:]  # Latest 2880 pressure readings from BME280
+recent_temp_dht = DHT_Temp[-2880:]  # Latest 2880 temperature readings from DHT11
+recent_hum_dht = DHT_Humidity[-2880:]  # Latest 2880 humidity readings from DHT11
+
+# Create a figure with multiple subplots to display sensor data
+plt.figure(figsize=(12, 10))  # Set the overall figure size (width, height in inches)
+
+# 1. Plot BME280 Temperature
+plt.subplot(3, 2, 1)  # Create subplot in a 3x2 grid, position 1
+plt.tight_layout()  # Automatically adjust subplot parameters for better layout
+plt.plot(recent_temp_bme, label="BME Temperature", color="blue")  # Line plot for BME280 temperature
+plt.title("BME280 Temperature")  # Title of the plot
+plt.xlabel("Time (intervals)")  # X-axis label
+plt.ylabel("Temperature (C)")  # Y-axis label
+plt.legend()  # Display legend for the plot
+plt.grid(True)  # Add a grid for better readability
+
+# 2. Plot BME280 Humidity
+plt.subplot(3, 2, 2)  # Create subplot in a 3x2 grid, position 2
+plt.tight_layout()  # Adjust layout
+plt.plot(recent_hum_bme, label="BME Humidity", color="green")  # Line plot for BME280 humidity
+plt.title("BME280 Humidity")  # Title of the plot
+plt.xlabel("Time (intervals)")  # X-axis label
+plt.ylabel("Humidity (%)")  # Y-axis label
+plt.legend()  # Display legend
+plt.grid(True)  # Add a grid
+
+# 3. Plot BME280 Pressure
+plt.subplot(3, 2, 3)  # Create subplot in a 3x2 grid, position 3
+plt.tight_layout()  # Adjust layout
+plt.plot(recent_hpa_bme, label="BME Pressure", color="purple")  # Line plot for BME280 pressure
+plt.title("BME280 Pressure")  # Title of the plot
+plt.xlabel("Time (intervals)")  # X-axis label
+plt.ylabel("Pressure (hPa)")  # Y-axis label
+plt.legend()  # Display legend
+plt.grid(True)  # Add a grid
+
+# 4. Plot DHT11 Temperature
+plt.subplot(3, 2, 4)  # Create subplot in a 3x2 grid, position 4
+plt.tight_layout()  # Adjust layout
+plt.plot(recent_temp_dht, label="DHT Temperature", color="orange")  # Line plot for DHT11 temperature
+plt.title("DHT11 Temperature")  # Title of the plot
+plt.xlabel("Time (intervals)")  # X-axis label
+plt.ylabel("Temperature (C)")  # Y-axis label
+plt.legend()  # Display legend
+plt.grid(True)  # Add a grid
+
+# 5. Plot DHT11 Humidity
+plt.subplot(3, 2, 5)  # Create subplot in a 3x2 grid, position 5
+plt.tight_layout()  # Adjust layout
+plt.plot(recent_hum_dht, label="DHT Humidity", color="red")  # Line plot for DHT11 humidity
+plt.title("DHT11 Humidity")  # Title of the plot
+plt.xlabel("Time (intervals)")  # X-axis label
+plt.ylabel("Humidity (%)")  # Y-axis label
+plt.legend()  # Display legend
+plt.grid(True)  # Add a grid
+
+# Create a new figure for sensor comparison plots
+plt.figure(figsize=(12, 6))  # Set the size of the comparison figure
+
+# 6. Temperature Comparison: BME280 vs. DHT11
+plt.subplot(2, 1, 1)  # Create subplot in a 2x1 grid, position 1
+plt.plot(recent_temp_bme, label="BME Temperature", color="blue")  # BME280 temperature plot
+plt.plot(recent_temp_dht, label="DHT Temperature", color="orange", linestyle="--")  # DHT11 temperature plot (dashed line)
+plt.title("Temperature Comparison: BME280 vs. DHT11")  # Title for comparison
+plt.xlabel("Time (intervals)")  # X-axis label
+plt.ylabel("Temperature (C)")  # Y-axis label
+plt.legend()  # Display legend
+plt.grid(True)  # Add a grid
+
+# 7. Humidity Comparison: BME280 vs. DHT11
+plt.subplot(2, 1, 2)  # Create subplot in a 2x1 grid, position 2
+plt.plot(recent_hum_bme, label="BME Humidity", color="green")  # BME280 humidity plot
+plt.plot(recent_hum_dht, label="DHT Humidity", color="red", linestyle="--")  # DHT11 humidity plot (dashed line)
+plt.title("Humidity Comparison: BME280 vs. DHT11")  # Title for comparison
+plt.xlabel("Time (intervals)")  # X-axis label
+plt.ylabel("Humidity (%)")  # Y-axis label
+plt.legend()  # Display legend
+plt.grid(True)  # Add a grid
+
+# Adjust the layout of the comparison figure for better spacing
+plt.tight_layout()  # Adjust subplot spacing
+plt.show()  # Display all the plots
+```
+
 ## Criteria D: Functionality
 A 7 min video demonstrating the proposed solution with narration
 

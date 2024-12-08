@@ -126,6 +126,185 @@ Fetching stored data for local use and further analysis.
 **10. numpy
 **Performing numerical computations and data manipulation.
 
+### Data Collection and Sorting: Success Criteria 1 & 3 (Remote part)
+This first part of the code is responsible for collecting data from the server, organizing it by sensor type, and ensuring that we have enough consecutive readings from all sensors.
+**Step 1: Send a Request to Get Data
+**
+```.py
+server_ip = "192.168.4.137"  # Server IP
+response = requests.get(f"http://{server_ip}/readings")
+data = response.json()
+readings = data["readings"][0]
+```
+**What is it doing?
+**This block sends a GET request to the server using the specified server_ip to fetch data. The data is then converted from JSON format into a Python dictionary. data["readings"][0] accesses the first set of readings, assuming this is the structure of the returned data.
+
+**Step 2: Organizing Data by Sensor ID
+**
+```.py
+# Organize data by sensor ID
+temperature_data = []
+humidity_data = []
+pressure_data = []
+timestamps = []
+
+for r in readings:
+    timestamp = datetime.fromisoformat(r["datetime"])
+    if r["sensor_id"] == 11:  # Temperature
+        temperature_data.append((timestamp, r["value"]))
+    elif r["sensor_id"] == 10:  # Humidity
+        humidity_data.append((timestamp, r["value"]))
+    elif r["sensor_id"] == 12:  # Pressure
+        pressure_data.append((timestamp, r["value"]))
+```
+**What is it doing?
+**This block organizes the raw data into separate lists for temperature, humidity, and pressure, based on the sensor_id provided in the data. For each reading, it extracts the timestamp and value, storing them in tuples.
+
+**Step 3: Sorting the Data
+**
+**What is it doing?
+**This block sorts the data for each sensor type by the timestamp to ensure the readings are in chronological order. Sorting is essential for time-series data as we need to process it in a sequence.
+**Step 4: Ensuring Consecutive Readings for Each Sensor
+**
+```.py
+min_required = 2880  # 48 hours * 60 minutes
+
+def find_last_consecutive(data, required_count):
+    """Find the last block of consecutive readings of a given size."""
+    for i in range(len(data) - required_count, -1, -1):
+        timestamps_block = [data[j][0] for j in range(i, i + required_count)]
+        # Check if timestamps are consecutive (1-minute intervals)
+        if all((timestamps_block[j + 1] - timestamps_block[j]).seconds == 60 for j in range(len(timestamps_block) - 1)):
+            return data[i : i + required_count]
+    return []
+```
+**What is it doing?
+**The function find_last_consecutive checks for the last block of 2880 consecutive readings (48 hours worth of data) from each sensor. The readings must be exactly one minute apart, so it checks if the time difference between consecutive readings is 60 seconds. If it finds such a block, it returns it; otherwise, it returns an empty list.
+**Step 5: Applying the Consecutive Check to Each Sensor
+**
+```.py
+# Find 2880 consecutive readings for each sensor
+temperature_consecutive = find_last_consecutive(temperature_data, min_required)
+humidity_consecutive = find_last_consecutive(humidity_data, min_required)
+pressure_consecutive = find_last_consecutive(pressure_data, min_required)
+```
+**What is it doing?
+**This applies the find_last_consecutive function to each of the sensor data lists (temperature, humidity, pressure) to ensure that we have at least 2880 consecutive readings from each sensor.
+
+Step 6: Handling Insufficient Data
+```.py
+# Ensure all three sensors have enough data
+if not temperature_consecutive or not humidity_consecutive or not pressure_consecutive:
+    print("Error: Not enough consecutive data for one or more sensors.")
+```
+**What is it doing?
+**This checks if any of the sensors failed to meet the requirement of 2880 consecutive readings. If so, it prints an error message.
+**Step 7: Extracting Data from the Consecutive Readings
+**
+```.py
+# Extract timestamps and values
+timestamps = [t[0] for t in temperature_consecutive]
+temperatures = [t[1] for t in temperature_consecutive]
+humidities = [h[1] for h in humidity_consecutive]
+pressures = [p[1] for p in pressure_consecutive]
+```
+**What is it doing?
+**After ensuring there’s enough consecutive data, this step extracts the timestamps and sensor values (temperature, humidity, pressure) into separate lists.
+
+##### Second Part: Finding Mathematical Models and Plotting the Data
+This part fits mathematical models (sine and polynomial) to the sensor data and plots the results.
+
+**Step 1: Convert Time to Minutes
+**
+```.py
+# Extract time in minutes since the start
+start_time = timestamps[0]
+time_minutes = [(t - start_time).total_seconds() / 60 for t in timestamps]
+```
+**What is it doing?
+**This converts the timestamps into "minutes since the start" (i.e., the time difference in minutes between each timestamp and the first timestamp). This is useful for fitting the models and working with time in a simpler numeric format.
+**Step 2: Define the Mathematical Models
+**
+```.py
+def sine_model(x, A, B, C, D):
+    """Sine function for periodic data."""
+    return A * np.sin(B * x + C) + D
+
+def poly_model(x, a, b, c):
+    """Quadratic polynomial for pressure."""
+    return a * x**2 + b * x + c
+```
+**What is it doing?
+**Here, two mathematical models are defined:
+Sine model (sine_model): A sine wave model used for temperature and humidity, which has parameters A (amplitude), B (frequency), C (phase shift), and D (vertical shift).
+Polynomial model (poly_model): A quadratic polynomial used for pressure, with parameters a, b, and c.
+**Step 3: Fit the Models to the Data
+**
+```.py
+# Fit models with adjusted initial guesses
+temp_params, temp_cov = curve_fit(sine_model, time_minutes, temperatures, p0=[3, 0.003, 0, 26])
+humidity_params, humidity_cov = curve_fit(sine_model, time_minutes, humidities, p0=[2, 0.003, 0, 16])
+pressure_params, pressure_cov = curve_fit(poly_model, time_minutes, pressures)
+```
+**What is it doing?
+**The curve_fit function from SciPy is used to fit the models (sine_model for temperature and humidity, poly_model for pressure) to the data.
+The initial guesses p0 for the sine model are provided for temperature and humidity.
+For pressure, a polynomial model is fitted.
+**Step 4: Generate Predictions from the Models
+**
+```.py
+# Generate predictions
+time_fit = np.linspace(0, max(time_minutes), 1000)  # More points for a smoother curve
+temp_fit = sine_model(time_fit, *temp_params)
+humidity_fit = sine_model(time_fit, *humidity_params)
+pressure_fit = poly_model(time_fit, *pressure_params)
+```
+**What is it doing?
+**Here, the time_fit is created as a more granular time array (1000 points) over the range of the original time data. Predictions for temperature, humidity, and pressure are then generated using the fitted models (temp_fit, humidity_fit, pressure_fit).
+**Step 5: Plotting the Data and Models
+**
+```.py
+# Plot original data and fits
+plt.figure(figsize=(12, 10))
+
+# Temperature
+plt.subplot(3, 1, 1)
+plt.plot(time_minutes, temperatures, color="red", label="Data")
+plt.plot(time_fit, temp_fit, color="blue", label="Sine Model Fit")
+plt.title("Temperature Model")
+plt.legend()
+plt.grid()
+
+# Humidity
+plt.subplot(3, 1, 2)
+plt.plot(time_minutes, humidities, color="blue", label="Data")
+plt.plot(time_fit, humidity_fit, color="green", label="Sine Model Fit")
+plt.title("Humidity Model")
+plt.legend()
+plt.grid()
+
+# Pressure
+plt.subplot(3, 1, 3)
+plt.plot(time_minutes, pressures, color="green", label="Data")
+plt.plot(time_fit, pressure_fit, color="purple", label="Polynomial Model Fit")
+plt.title("Pressure Model")
+plt.legend()
+plt.grid()
+
+plt.tight_layout()
+plt.show()
+```
+**What is it doing?
+****This step creates the plots:
+**The first subplot shows the original temperature data and the fitted sine model.
+The second subplot shows the original humidity data and the fitted sine model.
+The third subplot shows the original pressure data and the fitted polynomial model. Each subplot contains the original data and the model fits with legends and gridlines.
+
+This part fits sine and polynomial models to the sensor data and generates the corresponding plots. It provides a mathematical representation of the temperature, humidity, and pressure data.
+
+
+
+
 ## Criteria D: Functionality
 A 7 min video demonstrating the proposed solution with narration
 

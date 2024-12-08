@@ -140,7 +140,7 @@ Creating graphs and visualizations for data analysis.
 Performing numerical computations and data manipulation.
 
 ### Data Collection and Sorting: Success Criteria 1 & 3 (Remote part)
-Server sensors can sometimes experience downtime or inconsistencies, leading to missing or irregular readings. To ensure data accuracy and reliability, we need to identify a continuous 48-hour period (2880 readings) where data is complete and consistent. Step 3,4, and 5 allows us to filter out unreliable data and focus on analyzing high-quality, uninterrupted information based on previous sensor readings.
+Server sensors can sometimes experience downtime or inconsistencies, leading to missing or irregular readings. To ensure data accuracy and reliability, we must identify a continuous 48-hour period (2880 readings) where data is complete and consistent. Steps 3, 4, and 5 allow us to filter out unreliable data and focus on analyzing high-quality, uninterrupted information based on previous sensor readings.
 
 #### Code Breakdown
 **Part 1: Data Collection and Organization

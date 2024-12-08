@@ -69,6 +69,17 @@ The collected data is stored locally in a CSV file for structured access and off
 | 22      | Record and edit project video                | Create a video summarizing the solution, analysis, and poster         | 2 hours      | Dec 7                  | D          |
 ---
 
+### Test Plan
+| **Test Type**         | **Target**                                                                                  | **Procedure**                                                                                                                                                                                                                   | **Expected Outcome**                                                                                                                                                       |
+|------------------------|---------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Connect sensors        | Connect BME280 and DHT11 sensors to Raspberry Pi.                                          | **BME280:**<br>VIN - 3.3V or 5V (2C1R)<br>GND - GND (2C3R)<br>SCL - GPIO 3 (1C2R)<br>SDA - GPIO 2 (1C3R)<br><br>**DHT11:**<br>VCC - 3.3V (1C1R)<br>GND - GND (1C4R)<br>DATA - GPIO (1C5R)                                           | Sensors should be securely connected to the Raspberry Pi, ready for data collection.                                                                                      |
+| Connect to Raspberry Pi| Access Raspberry Pi desktop remotely using VNC Viewer.                                     | Open VNC Viewer.<br>Type in the Raspberry Pi’s IP address.<br>Enter username: **MIKEANDUNANDI** and password: **ANYTHINGMEMORABLE123**.                                                                                      | The desktop of the Raspberry Pi should be displayed.                                                                                                                       |
+| Run main.py            | Connect to the server and collect sensor data.                                             | Open the terminal and type the following commands line by line:<br>`python3 -m venv venv`<br>`source venv/bin/activate`<br>`python3 main.py`<br>Every minute, the terminal should display the data collected and verification messages. | A message displaying data from each sensor should pop up on the terminal every minute, along with verification statements.                                                 |
+| Obtain sensor data     | Retrieve and display collected sensor data from the server.                                | Open PyCharm.<br>Run `data_retrieval.py`.                                                                                                                                                                                      | The program should produce lists showcasing the data collected by each sensor individually.                                                                                |
+| Model the data         | Create graphs of collected and predicted data.                                             | Open PyCharm.<br>Run `model_data.py`.                                                                                                                                                                                          | The program should produce 6 graphs:<br>- 2 for Temperature<br>- 2 for Humidity<br>- 2 for Pressure (collected and predicted).                                             |
+| Produce statistics     | Calculate and display minimum, maximum, and average values for each sensor.                | Open PyCharm.<br>Run `statistics.py`.                                                                                                                                                                                          | The program should produce the minimum, maximum, and average values for each sensor.                                                                                      |
+
+
 ## Criteria C: Development
 
 ### List of techniques used
@@ -105,26 +116,26 @@ Fetching stored data for local use and further analysis.
 5. Try-except statement
 6. If-else conditional statement
 #### Libraries
-**1. os
-**For interacting with the operating system, e.g., file paths.
-**2. time
-**For delays and timestamp-related operations.
-**3. csv
-**Reading from and writing to CSV files for structured data storage.
-**4. requests
-**Making HTTP requests for API interactions.
-**5. Adafruit - DHT11
-**Accessing temperature and humidity readings from the DHT11 sensor.
-**6. bme280
-**Reading temperature, humidity, and pressure from the BME280 sensor.
-**7. smbus2
-**Reading temperature, humidity, and pressure from the BME280 sensor.
-**8. datetime
-**Managing date and time information for data logging.
-**9. matplotlib
-**Creating graphs and visualizations for data analysis.
-**10. numpy
-**Performing numerical computations and data manipulation.
+1. os
+For interacting with the operating system, e.g., file paths.
+2. time
+For delays and timestamp-related operations.
+3. csv
+Reading from and writing to CSV files for structured data storage.
+4. requests
+Making HTTP requests for API interactions.
+5. Adafruit - DHT11
+Accessing temperature and humidity readings from the DHT11 sensor.
+6. bme280
+Reading temperature, humidity, and pressure from the BME280 sensor.
+7. smbus2
+Reading temperature, humidity, and pressure from the BME280 sensor.
+8. datetime
+Managing date and time information for data logging.
+9. matplotlib
+Creating graphs and visualizations for data analysis.
+10. numpy
+Performing numerical computations and data manipulation.
 
 ### Data Collection and Sorting: Success Criteria 1 & 3 (Remote part)
 Server sensors can sometimes experience downtime or inconsistencies, leading to missing or irregular readings. To ensure data accuracy and reliability, we need to identify a continuous 48-hour period (2880 readings) where data is complete and consistent. Step 3,4, and 5 allows us to filter out unreliable data and focus on analyzing high-quality, uninterrupted information based on previous sensor readings.

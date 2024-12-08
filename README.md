@@ -553,6 +553,57 @@ plt.grid(True)  # Add a grid
 plt.tight_layout()  # Adjust subplot spacing
 plt.show()  # Display all the plots
 ```
+### Statistical Analysis of Sensor Data
+
+Upon the collection of all the sensor data, we developed a function that calculated and collected statistical information, comprising of the mean, maximum, minimum and standard deviation.
+
+```
+def analyze_sensor_data(sensor_data):
+
+    if not sensor_data:
+        return {"mean": None, "std_dev": None, "min": None, "max": None}
+
+    # Calculate mean
+    total = sum(sensor_data)
+    count = len(sensor_data)
+    mean = round(total / count,2)
+
+    # Calculate standard deviation
+    variance = sum((x - mean) ** 2 for x in sensor_data) / (count - 1) if count > 1 else 0
+    std_dev = round(variance ** 0.5,4)
+
+    # Find min and max
+    min_value = min(sensor_data)
+    max_value = max(sensor_data)
+
+    # Return results in a dictionary
+    return {"mean": mean, "std_dev": std_dev, "min": min_value, "max": max_value}
+
+# Usage
+results_bme_temp = analyze_sensor_data(BME_Temp)
+results_bme_hum = analyze_sensor_data(BME_Hum)
+results_bme_hpa = analyze_sensor_data(BME_Pressure)
+results_dht_temp = analyze_sensor_data(DHT_Temp)
+results_dht_hum = analyze_sensor_data(DHT_Hum)
+
+#Output
+print("BME Temp ",results_bme_temp)
+print("BME Humidity ",results_bme_hum)
+print("BME Pressure ",results_bme_hpa)
+print("DHT Temperature ",results_dht_temp)
+print("DHT Humidity ",results_dht_hum)
+```
+
+Once collected, we used the figures found to summarize out findings in a table
+
+| Sensor Name     | Sensor ID | Mean   | Maximum | Minimum | Standard Deviation |
+|-----------------|-----------|--------|---------|---------|--------------------|
+| BME Temperature | 374       | 22.75  | 28.65   | 21.7    | 0.5818             |
+| BME Humidity    | 375       | 34.15  | 47.89   | 28.56   | 2.33               |
+| BME Pressure    | 378       | 882.16 | 884.84  | 879.53  | 1.3401             |
+| DHT Temperature | 371       | 22.83  | 28.5    | 21.0    | 0.7857             |
+| DHT Humidity    | 372       | 34.17  | 48.6    | 28.0    | 2.4021             |
+
 
 ## Criteria D: Functionality
 A 7 min video demonstrating the proposed solution with narration

@@ -784,7 +784,8 @@ for col in forecast:
 
 
 ## Criteria D: Functionality
-A 7 min video demonstrating the proposed solution with narration
+A 7 min video demonstrating the proposed solution with narration - sent
+POSTER https://www.canva.com/design/DAGYr3XwZ_I/phsYEA-quEEVAWFqJyWzmQ/edit?utm_content=DAGYr3XwZ_I&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 ### References
 1. Industries, A. (n.d.). DHT11 basic temperature-humidity sensor + extras https://www.adafruit.com/product/386

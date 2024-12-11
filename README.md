@@ -105,6 +105,8 @@ The remote collected data is stored in an API (explained more in the system diag
 | 25      | Complete final documentation                 | Compile project documentation, including code and analysis            | 1 hour       | Dec 6                  | A, B, C    |
 | 26      | Finalize scientific poster                   | Include refined graphs and conclusions summarizing the investigation  | 4 hours      | Dec 7                  | D          |
 | 27      | Record and edit project video                | Create a video summarizing the solution, analysis, and poster         | 2 hours      | Dec 7                  | D          |
+| 28      | Submit project to client for feedback        | Send our Github repository to the client to showcase our process, and get feedback on the solution and advice.| 5 mins      | Dec 9                  | A,B,C,D |
+| 29      | Improve on client feedback to make the project more helpful | Work on the feedback that the client has given us in order to improve our project and help the client better. | 3 hours      | Dec 12                  | A,B,C,D |
 
 
 ### Test Plan

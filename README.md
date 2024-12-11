@@ -90,6 +90,131 @@ The collected data is stored locally in a CSV file for structured access and off
 
 ### Test Plan
 
+### Potential test plan instead of other one
+
+# Test Plan
+
+## Success Criteria and Test Cases
+
+### 1. Visual Representation
+**Description**: Provide a visual representation of Humidity, Temperature, and Atmospheric Pressure (HL) values for a minimum of 48 hours inside the dormitory (Local) and outside the house (Remote).  
+**Success Criteria**: 1  
+**Issue Tackled**: Helps Mr. X monitor and evaluate storage conditions over time to identify environmental factors impacting coffee bean quality.  
+
+#### Test Procedure
+1. Connect the BME280 and DHT11 sensors to the Raspberry Pi:
+   - **BME280**:
+     - VIN → 3.3V or 5V
+     - GND → GND
+     - SCL → GPIO 3
+     - SDA → GPIO 2
+   - **DHT11**:
+     - VCC → 3.3V
+     - GND → GND
+     - DATA → GPIO pin
+2. Power on the Raspberry Pi.
+3. Run the `main.py` script to collect data for at least 48 hours from both Local and Remote sensors.
+4. Use `extract_data.py` to generate time-series graphs of Humidity, Temperature, and Pressure.
+5. Verify that the graphs display data for both Local and Remote locations for at least 48 hours.
+
+#### Expected Outcome
+Time-series graphs should show data for Humidity, Temperature, and Pressure (Local and Remote) over a minimum of 48 hours.
+
+---
+
+### 2. Measure Local Variables
+**Description**: Measure Humidity, Temperature, and Atmospheric Pressure (HL) using a set of 3 sensors distributed around the dormitory.  
+**Success Criteria**: 2  
+**Issue Tackled**: Ensures comprehensive and accurate data collection by covering multiple points within the dormitory, addressing variations in environmental conditions.  
+
+#### Test Procedure
+1. Place three BME280 sensors in different parts of the dormitory.
+2. Connect all sensors to the Raspberry Pi as described in **Test Procedure 1**.
+3. Run the `main.py` script to collect data simultaneously from all three sensors.
+4. Open the generated CSV file and verify that data has been collected from all three sensors.
+
+#### Expected Outcome
+The CSV file should contain data from three sensors, confirming measurements are being collected simultaneously and comprehensively.
+
+---
+
+### 3. Mathematical Modelling
+**Description**: Create mathematical models for Humidity, Temperature, and Atmospheric Pressure (HL) for Local and Remote locations using linear (SL) and non-linear (HL) approaches.  
+**Success Criteria**: 3  
+**Issue Tackled**: Enables Mr. X to understand trends and relationships between variables, aiding in optimizing storage conditions through predictive insights.  
+
+#### Test Procedure
+1. Collect at least 48 hours of data using the procedure described in **Test Procedure 1**.
+2. Run `modelling.py` to generate linear and non-linear models for Humidity, Temperature, and Pressure.
+3. Verify that the output includes equations and visual graphs for each variable.
+
+#### Expected Outcome
+Linear and non-linear models, including equations and graphs, should be generated for each variable (Local and Remote).
+
+---
+
+### 4. Comparative Analysis
+**Description**: Perform a comparative analysis for Humidity, Temperature, and Atmospheric Pressure (HL), including mean, standard deviation, minimum, maximum, and median for Local and Remote locations.  
+**Success Criteria**: 4  
+**Issue Tackled**: Allows Mr. X to assess variability and stability of environmental conditions, crucial for maintaining premium coffee bean quality.  
+
+#### Test Procedure
+1. Collect at least 48 hours of data using the procedure described in **Test Procedure 1**.
+2. Run `statistics.py` to calculate the mean, standard deviation, minimum, maximum, and median for each variable (Local and Remote).
+3. Verify that the statistical values are correctly computed and displayed.
+
+#### Expected Outcome
+Statistical analysis should accurately produce mean, standard deviation, minimum, maximum, and median values for all variables and locations.
+
+---
+
+### 5. Data Storage and Backup
+**Description**: Store Local data in a CSV file and upload it to a remote server as a backup.  
+**Success Criteria**: 5  
+**Issue Tackled**: Provides reliable data storage and backup to prevent loss of critical information, ensuring continuous monitoring.  
+
+#### Test Procedure
+1. Collect data using the procedure described in **Test Procedure 1**.
+2. Verify that data is saved locally in a CSV file on the Raspberry Pi.
+3. Run `upload_to_server.py` to upload the CSV file to the remote server.
+4. Use `checkifuploaded.py` to confirm the successful upload of data to the remote server.
+
+#### Expected Outcome
+Data should be stored locally in a CSV file and successfully uploaded to the remote server for backup.
+
+---
+
+### 6. Prediction for 12 Hours
+**Description**: Provide a 12-hour prediction for Humidity, Temperature, and Atmospheric Pressure (HL).  
+**Success Criteria**: 6  
+**Issue Tackled**: Assists Mr. X in preemptive action against potential environmental changes that could harm his coffee bean collection.  
+
+#### Test Procedure
+1. Collect at least 48 hours of data using the procedure described in **Test Procedure 1**.
+2. Run `predict.py` to generate predictions for the next 12 hours.
+3. Verify the predicted values and their visualization on trend graphs.
+4. Compare predictions with actual subsequent measurements to assess accuracy.
+
+#### Expected Outcome
+12-hour predictions for each variable should be generated and visualized, showing trends and anticipated values.
+
+---
+
+### 7. Poster and Recommendations
+**Description**: Create a poster summarizing visual representations, models, analysis, and recommendations about healthy levels for Humidity, Temperature, and Atmospheric Pressure (HL).  
+**Success Criteria**: 7  
+**Issue Tackled**: Offers a clear and accessible summary of findings and helpful recommendations, empowering Mr. X to implement effective storage strategies.  
+
+#### Test Procedure
+1. Compile graphs, models, and analysis results using outputs from **Test Procedures 1 to 6**.
+2. Use a design tool (e.g., Canva, PowerPoint) to create the poster.
+3. Include visual representations, statistical analysis, models, and recommendations on healthy levels for Humidity, Temperature, and Pressure.
+4. Review the poster for clarity, accuracy, and visual appeal.
+
+#### Expected Outcome
+A well-designed poster summarizing the project, including graphs, models, analysis, and actionable recommendations, should be created.
+
+
 | **Test Type**           | **Target**                                                                                  | **Procedure**                                                                                                                                                                                                                     | **Expected Outcome**                                                                                                                                                       |
 |--------------------------|---------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Connect sensors & power  | Connect BME280 and DHT11 sensors to Raspberry Pi.                                          | **BME280:**<br>VIN - 3.3V or 5V (2C1R)<br>GND - GND (2C3R)<br>SCL - GPIO 3 (1C2R)<br>SDA - GPIO 2 (1C3R)<br><br>**DHT11:**<br>VCC - 3.3V (1C1R)<br>GND - GND (1C4R)<br>DATA - GPIO (1C5R)<br> Connect the micro-USB cable to the charging brick and a power source. | Sensors should be securely connected to the Raspberry Pi, ready for data collection.                                                                                      |

@@ -54,6 +54,8 @@ Both Fig 1.2 and 1.3 include logging in at every iteration, because the login to
 
 ### How is the data stored and managed?
 The collected data is stored locally in a CSV file for structured access and offline analysis. This format allows for easy reading, modification, and integration with data-processing tools. To ensure data persistence and accessibility, the CSV data is periodically uploaded to an API server. This two-tiered approach balances local storage for quick access with remote storage for backup and broader analysis, providing a reliable and scalable system for managing the collected environmental data.
+![image](https://github.com/user-attachments/assets/cc73334c-0f75-49a0-a3fc-f52a470ac78b)
+
 
 ### Record of Tasks
 # Record of Tasks

@@ -38,16 +38,17 @@ Considering the budgetary constraints and system requirements, the proposed soft
 Fig. 3 System diagram (HL+) for the proposed system to visualize and analyze temperature and humidity data in our campus. Physical variables were measured locally with a network of DHT11/BMP280 sensors on a Raspberry Pi. A remote server provides an API for remote monitoring and storage (192.162.6.142) via the ISAK-S network. A laptop for remote work is included.
 
 ### Flow Diagram 1
-![image](https://github.com/user-attachments/assets/c4886776-946e-4fa2-8f90-9ce32af0a45c)
-Fig 1.1: Sensor registration code, specifically DHT Temperature.
+![image](https://github.com/user-attachments/assets/3c5fbc87-14d6-4479-8573-7bd1673e8dc8)
+Fig 1.1: A flowchart showing how our sensor registration code is implemented. It ensures that each sensor is registered to the API, giving us a place to send our sensor data once it has been collected.
 ### Flow Diagram 2
 ![image](https://github.com/user-attachments/assets/af8eda74-9a3a-46e0-b612-4b913ffbdccb)
 
-Fig 1.2: Code for saving data to csv.
+Fig 1.2: A flowchart showcasing how our data is saved to the local csv file (sensor_data.csv).
 
 ### Flow Diagram 3
 ![image](https://github.com/user-attachments/assets/8c95ecbe-df9c-4ce2-a2ef-bdda07354d5e)
-Fig 1.3: Code for uploading data to server.
+Fig 1.3: A flowchart showcasing how our data is saved to the local API .
+
 
 Both Fig 1.2 and 1.3 include logging in at every iteration, because the login token would expire after 15 iterations, so we decided to add that step to every upload (explained more in Criteria C, commented code) just to play it safe.
 

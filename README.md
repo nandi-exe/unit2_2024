@@ -4,8 +4,8 @@
 
 ### Problem Definition
 The client, Mr. X, is a boarding student at a local international school and a passionate coffee enthusiast. As a dedicated collector of premium coffee beans, he takes great pride in preserving their rich aroma, complex flavors, and overall quality. His deep appreciation for coffee's nuanced characteristics drives his attention to detail in maintaining the integrity of his collection. However, Mr. X has faced persistent challenges with fluctuating humidity levels in his pantry, which have led to moisture absorption, mold growth, and a noticeable decline in freshness. These issues have significantly compromised the quality of his carefully curated beans, undermining his ability to fully enjoy their distinct profiles. Determined to protect his collection, Mr. X has made it a top priority to establish optimal storage conditions. Recognizing the detrimental impact of inconsistent humidity on his coffee beans, he is actively seeking a reliable and effective solution to safeguard their unique qualities. By addressing these environmental factors, Mr. X hopes to preserve the full essence of his beans and elevate his coffee-collecting experience.
-_(See the evidence of Consultation in the Appendix)
-_
+(_See the evidence of Consultation in the Appendix: Criteria B/Record of Tasks_)
+
 ### Proposed Solution
 
 To address the client’s requirements, a cost-effective and scalable solution includes a low-cost sensing device for humidity and temperature, combined with a custom data processing script for analyzing the acquired samples. For the sensing device, an excellent choice is the DHT11 [[1]](https://www.adafruit.com/product/386) [[2]](https://www.researchgate.net/publication/366522967_An_Approach_for_Implementing_Innovative_Weather_Monitoring_System_with_DHT11_Sensor_and_Arduino_Uno_Tool_based_on_IoT) [[3]](https://www.researchgate.net/publication/350859817_Automatic_Room_Temperature_Control_System_Using_Arduino_UNO_R3_and_DHT11_Sensor) sensor, which is available for less than $5 and provides adequate precision and range for the application (Temperature Range: 0°C to 50°C, Humidity Range: 20% to 90%). While alternatives like the DHT22, AHT20, or AM2301B offer higher specifications, the DHT11’s simplicity, using SPI communication instead of more complex protocols like I2C, makes it a better fit for this application.
@@ -62,11 +62,11 @@ The collected data is stored locally in a CSV file for structured access and off
 | 1       | Consult with the client                      | Understand the client's needs and refine project goals               | 30 mins       | Nov 15                 | A          |
 | 2       | Write problem definition, design statement, and success criteria | Finalize problem definition, design statement, and criteria for evaluation | 15 mins      | Nov 16                 | A, B       |
 | 3       | Research sensors and purpose of local and remote measurements | Identify sensors needed and their purpose for data collection          | 30 mins      | Nov 17                 | A          |
-| 4       | Create GitHub repository, fork Dr Ruben's template | Centralize project files, including system diagrams, code, and data     | 10 mins      | Nov 17                 | B          |
+| 4       | Create GitHub repository, fork template | Centralize project files, including system diagrams, code, and data     | 10 mins      | Nov 17                 | B          |
 | 5       | Complete system diagram                      | Create a diagram representing the hardware and software components    | 20 mins      | Nov 18                 | B          |
 | 6       | Develop detailed criteria                   | Define criteria the program will follow to ensure functionality       | 20 mins      | Nov 19                 | A          |
 | 7       | Set up Raspberry Pi for sensor data collection | Collect temperature, humidity, and pressure data locally               | 1 hour       | Nov 19                 | C          |
-| 8       | Develop modular functions for sensor data collection | Modularize code for handling data from each sensor                     | 3 hours      | Nov 21                 | C          |
+| 8       | Develop modular functions for sensor data collection | Organize, refactor, and modularize code for handling data from each sensor                     | 3 hours      | Nov 21                 | C          |
 | 9       | Program Raspberry Pi to integrate and collect data | Enable data collection from DHT11 and BME280 sensors                   | 1 hour       | Nov 23                 | C          |
 | 10      | Test connections between sensors             | Ensure accurate data flow between sensors and Raspberry Pi            | 45 mins      | Nov 25                 | C          |
 | 11      | Complete calendar interface                  | Develop a disguised calendar interface with interactive features      | 2.5 hours     | Nov 26                 | C          |
@@ -121,34 +121,6 @@ Managing user authentication and token-based access.
 Sending serialized sensor data to a remote server.
 8. Accessing API data and readings
 Fetching stored data for local use and further analysis.
-#### Programming Constructs
-1. Functions
-2. Lists and Dictionaries
-3. For loop
-4. While loop
-5. Try-except statement
-6. If-else conditional statement
-#### Libraries
-1. os
-For interacting with the operating system, e.g., file paths.
-2. time
-For delays and timestamp-related operations.
-3. csv
-Reading from and writing to CSV files for structured data storage.
-4. requests
-Making HTTP requests for API interactions.
-5. Adafruit - DHT11
-Accessing temperature and humidity readings from the DHT11 sensor.
-6. bme280
-Reading temperature, humidity, and pressure from the BME280 sensor.
-7. smbus2
-Reading temperature, humidity, and pressure from the BME280 sensor.
-8. datetime
-Managing date and time information for data logging.
-9. matplotlib
-Creating graphs and visualizations for data analysis.
-10. numpy
-Performing numerical computations and data manipulation.
 
 ### Data Collection and Sorting: Success Criteria 1 & 3 (Remote part)
 Server sensors can sometimes experience downtime or inconsistencies, leading to missing or irregular readings. To ensure data accuracy and reliability, we must identify a continuous 48-hour period (2880 readings) where data is complete and consistent. Steps 3, 4, and 5 allow us to filter out unreliable data and focus on analyzing high-quality, uninterrupted information based on previous sensor readings.

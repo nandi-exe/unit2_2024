@@ -199,13 +199,15 @@ Fetching stored data for local use and further analysis.
 
 ### Challenge 1: Login Timeout
 
-During our first round of data collection we realised that after 15 minutes, the server would deny us access to the server, resulting in only the csv file being updated and not the server. After consulting other project developers, and reading (some kind of source about APIs) we realised the problem was in the access token. 
+Challenge 1: Login Timeout
+During the initial phase of data collection, we encountered a significant issue where the server would deny access after 15 minutes. As a result, while the local CSV file was updated successfully, the data upload to the server failed beyond this point. Upon investigation and consultation with other developers, as well as reviewing API documentation and best practices, we identified the root cause of the issue: the access token's expiration.
 
-After compiling the modules into the main file, we had left the server login code outside of the “send to server” module. By doing so, the code only logged into the server once throughout the entire 48 hours. What we didn’t realise was that the access token gained from this initial login in  timed out after 15 iterations/minutes, which resulted in the data upload being halted once this time frame elapsed.
+Initially, the server login process was implemented outside the upload_to_server code and was executed only once at the start of the 48-hour data collection process. This approach caused the access token, retrieved during the initial login, to expire after 15 minutes. Once the token expired, the server rejected further data upload requests, halting the process.
 
 #### Solution
+To resolve this issue, we refactored the login mechanism by integrating the server login code directly into the upload_to_server module. This adjustment ensured that the login credentials were refreshed with each iteration of the data upload process. As a result, a new access token was obtained during every data transfer, preventing timeout errors and enabling efficient and uninterrupted data uploads.
 
-In order to combat this error, we shifted the following code into the “upload_to_server” module. With this change, each iteration of the upload had the Raspberry refresh the login credentials, preventing the time_out error we were receiving and allowing all the data to upload efficiently.
+Here is the revised code snippet that implements the solution:
 
 ```
  try:

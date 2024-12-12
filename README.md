@@ -239,6 +239,75 @@ The access token is embedded into an Authorization header in the format Bearer <
 By placing this code in the upload_to_server module, it ensures that a fresh access token is generated during every iteration of the upload process. This prevents timeout errors and guarantees that all data is successfully uploaded during extended data collection sessions.
 This solution effectively addressed the login timeout issue. The updated implementation allows the system to authenticate dynamically during each data upload cycle, ensuring smooth and uninterrupted server communication over long durations.
 
+### Challenge 2: Lack of parallel and consecutive 48 hours of remote sensor readings
+
+We came across two problems when trying to find parallel remote readings to compare to our sensor data. One was the remote sensors being down when our readings were taken, and the other was that there was a lack of consecutive 48 hours of readings, even on other days, and they were hard to find manually on the API. This code extracts remote sensor data from an API and processes it to identify 48 consecutive hours (2880 readings) of valid data for each sensor: temperature, humidity, and pressure. It ensures that these readings are consecutive, meaning there are no gaps larger than one minute between timestamps. After finding the data, it visualizes the trends over 48 hours, models the data using mathematical functions, and evaluates potential relationships.
+
+How the Code Works
+**Organizing Sensor Data
+**
+```.py
+# Loop through the readings and categorize by sensor type (Temperature, Humidity, Pressure)
+for r in readings:
+    timestamp = datetime.fromisoformat(r["datetime"])  # Convert timestamp from ISO format to datetime object
+    if r["sensor_id"] == 11:  # Sensor ID 11 is for Temperature
+        temperature_data.append((timestamp, r["value"]))
+    elif r["sensor_id"] == 10:  # Sensor ID 10 is for Humidity
+        humidity_data.append((timestamp, r["value"]))
+    elif r["sensor_id"] == 12:  # Sensor ID 12 is for Pressure
+        pressure_data.append((timestamp, r["value"]))
+```
+The loop separates raw data into temperature, humidity, and pressure lists based on sensor_id.
+Timestamps are converted into datetime objects for easy manipulation.
+
+**Sorting Data
+**
+```.py
+# Sort all data by timestamps to ensure the data is in chronological order
+temperature_data.sort(key=lambda x: x[0])
+humidity_data.sort(key=lambda x: x[0])
+pressure_data.sort(key=lambda x: x[0])
+```
+This organizes the readings chronologically to prepare for continuity checks.
+**Finding Consecutive Readings
+**
+```.py
+# Function to find the last block of consecutive readings of the required size
+def find_last_consecutive(data, required_count):
+    """Find the last block of consecutive readings of a given size."""
+    for i in range(len(data) - required_count, -1, -1):  # Iterate backward through the data
+        timestamps_block = [data[j][0] for j in range(i, i + required_count)]  # Extract the timestamps for this block
+        # Check if timestamps are consecutive (1-minute intervals)
+        if all((timestamps_block[j + 1] - timestamps_block[j]).seconds == 60 for j in range(len(timestamps_block) - 1)):
+            return data[i : i + required_count]  # Return the block if valid
+    return []  # Return an empty list if no valid block is found
+```
+This function identifies the most recent block of 48 hours (2880 minutes) of consecutive readings with exactly 1-minute intervals.
+
+**Fitting a Sine Model
+**
+```.py
+# Define potential models for fitting the data
+def sine_model(x, A, B, C, D):
+    """Sine function for periodic data."""
+    return A * np.sin(B * x + C) + D
+
+def poly_model(x, a, b, c):
+    """Quadratic polynomial for pressure."""
+    return a * x**2 + b * x + c
+# Fit models to the data using the curve fitting function from SciPy
+temp_params, temp_cov = curve_fit(sine_model, time_minutes, temperatures, p0=[3, 0.003, 0, 26])  # Fit a sine model to temperature
+humidity_params, humidity_cov = curve_fit(sine_model, time_minutes, humidities, p0=[2, 0.003, 0, 16])  # Fit a sine model to humidity
+pressure_params, pressure_cov = curve_fit(poly_model, time_minutes, pressures)  # Fit a polynomial model to pressure
+
+# Generate predictions using the fitted models for smoother curves
+time_fit = np.linspace(0, max(time_minutes), 1000)  # Create a smooth time axis for plotting the fit
+temp_fit = sine_model(time_fit, *temp_params)
+humidity_fit = sine_model(time_fit, *humidity_params)
+pressure_fit = poly_model(time_fit, *pressure_params)
+```
+The temperature data is fitted to a sine function to capture periodic patterns like day-night cycles.
+
 
 
 ### References for Criteria C: Helpful sources during our project development

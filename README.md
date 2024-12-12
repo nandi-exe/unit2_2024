@@ -203,7 +203,7 @@ During our first round of data collection we realised that after 15 minutes, the
 
 After compiling the modules into the main file, we had left the server login code outside of the “send to server” module. By doing so, the code only logged into the server once throughout the entire 48 hours. What we didn’t realise was that the access token gained from this initial login in  timed out after 15 iterations/minutes, which resulted in the data upload being halted once this time frame elapsed.
 
-Solution
+#### Solution
 
 In order to combat this error, we shifted the following code into the “upload_to_server” module. With this change, each iteration of the upload had the Raspberry refresh the login credentials, preventing the time_out error we were receiving and allowing all the data to upload efficiently.
 

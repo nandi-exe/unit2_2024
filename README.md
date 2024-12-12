@@ -197,10 +197,166 @@ Sending serialized sensor data to a remote server.
 8. Accessing API data and readings
 Fetching stored data for local use and further analysis.
 
+### Sensor Data Logging and Uploading Code
+
+This script automates the collection, storage, and uploading of environmental data from multiple sensors (DHT11 and BME280) to a remote server. Below is an explanation of each component, the original approach, and how we refined it to address a critical challenge.
+
+**1. Sensor Initialization
+**
+The initialize_bme280() function initializes the BME280 sensor. This sensor measures temperature, humidity, and pressure. The function uses the smbus2 library to communicate with the sensor over I2C, loading its calibration parameters for accurate measurements.
+```.py
+# Initialize BME280
+def initialize_bme280():
+    """
+    Initializes the BME280 sensor by setting up the bus and loading calibration parameters.
+    Returns:
+        bus (object): The SMBus instance for communication.
+        address (int): The I2C address of the BME280 sensor.
+    """
+    try:
+        port = 1  # The I2C port number (1 is typical for Raspberry Pi).
+        address = 0x76  # Default I2C address of the BME280 sensor.
+        bus = smbus2.SMBus(port)  # Create an SMBus instance for communication.
+        bme280.load_calibration_params(bus, address)  # Load the sensor's calibration parameters.
+        return bus, address
+    except Exception as e:
+        # Handle errors during initialization, such as hardware connection issues.
+        print(f"Error initializing BME280: {e}")
+        return None, None
+```
+We assumed the BME280 would always initialize successfully. However, hardware malfunctions or incorrect connections could cause failures, so we added exception handling to manage errors gracefully.
+
+**2. Sensor Data Collection
+**
+The collect_sensor_data() function gathers environmental data from both DHT11 (temperature and humidity) and BME280 (temperature, humidity, and pressure).
+
+```.py
+def collect_sensor_data(dht_pin, bme_bus, bme_address):
+    """
+    Collects temperature, humidity, and pressure data from the DHT11 and BME280 sensors.
+    Args:
+        dht_pin (int): The GPIO pin number where the DHT11 sensor is connected.
+        bme_bus (object): The SMBus instance for the BME280 sensor.
+        bme_address (int): The I2C address of the BME280 sensor.
+    Returns:
+        dict: A dictionary containing sensor data and a timestamp.
+    """
+    try:
+        # Read data from DHT11 sensor using `read_retry` to handle transient read failures.
+        humidity_dht, temperature_dht = read_retry(DHT11, dht_pin)
+
+        if humidity_dht is None or temperature_dht is None:
+            # If the DHT11 sensor fails to provide data, raise an error.
+            raise ValueError("Failed to read data from DHT11 sensor.")
+
+        # Read data from the BME280 sensor, including temperature, humidity, and pressure.
+        bme_data = bme280.sample(bme_bus, bme_address)
+        temperature_bme = bme_data.temperature
+        humidity_bme = bme_data.humidity
+        pressure = bme_data.pressure
+
+        # Get the current time and format it as a readable string.
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        # Create a dictionary with rounded sensor data and a timestamp.
+        data = {
+            "datetime": current_time,
+            "temperature_dht": round(temperature_dht, 2),
+            "humidity_dht": round(humidity_dht, 2),
+            "temperature_bme": round(temperature_bme, 2),
+            "humidity_bme": round(humidity_bme, 2),
+            "pressure": round(pressure, 2)
+        }
+        return data
+    except Exception as e:
+        # Log an error if data collection fails.
+        print(f"Error collecting sensor data: {e}")
+        return None
+```
+**How it Works:
+**
+The DHT11 sensor uses the read_retry() method to minimize data retrieval errors.
+BME280 data is collected using the sample() method, retrieving calibrated measurements.
+The data is timestamped with the current date and time for later reference.
+
+**3. Saving Data to CSV
+**
+The save_to_csv() function appends the collected data to a local CSV file for backup and offline analysis.
+```.py
+# Save data to CSV
+def save_to_csv(data, file_path):
+    """
+    Saves sensor data to a CSV file for local storage.
+    Args:
+        data (dict): The sensor data to save.
+        file_path (str): Path to the CSV file.
+    """
+    try:
+        file_exists = os.path.exists(file_path)  # Check if the file already exists.
+        with open(file_path, mode="a", newline="") as csv_file:
+            # Open the CSV file in append mode.
+            writer = csv.DictWriter(csv_file, fieldnames=data.keys())
+            if not file_exists:
+                # Write headers if the file doesn't exist yet.
+                writer.writeheader()
+            # Write the sensor data as a new row.
+            writer.writerow(data)
+    except Exception as e:
+        # Log an error if saving data fails.
+        print(f"Error saving data to CSV: {e}")
+```
+**How it Works:
+**
+The script checks whether the CSV file exists. If not, it writes a header row using the data keys.
+Data is then appended as rows for each collection cycle.
+This function was implemented early to ensure data persistence in case of server upload failures.
+
+**4. Logging in to upload to server
+**
+The upload_to_server() function handles authentication and uploads the collected data to a remote server.
+```.py
+def perform_login():
+    """
+    Logs in to the server once and retrieves the authentication token.
+    This function is called only once in the script, which creates a problem when the token expires. The improved version is below, in Challenge 1: Login Timeout
+    """
+    try:
+        # Sends an HTTP POST request to the server's login endpoint.
+        # `requests.post` is used to transmit login credentials (contained in the `user` dictionary) to the server.
+        login_response = requests.post(f'http://{server_ip}/login', json=user)
+
+        # Extracts the 'access_token' from the JSON response returned by the server.
+        # The token is expected to be part of the server's response if the login is successful.
+        cookie = login_response.json().get('access_token')
+
+        # If the token is not present in the response (e.g., incorrect credentials or server error),
+        # raise an exception to indicate the login failed.
+        if not cookie:
+            raise ValueError("Failed to retrieve access token. Check login credentials.")
+
+        # Returns the retrieved token for use in subsequent requests.
+        return cookie
+
+    except Exception as e:
+        # Captures and prints any exception that occurs during the login process.
+        # This includes issues like server unavailability, invalid credentials, or other errors.
+        print(f"Error during login: {e}")
+
+        # Returns None to indicate the login attempt failed, signaling the main script to handle the error.
+        return None
+```
+**How it Works:
+**
+The script logs into the server and retrieves an access token.
+Each data point is associated with a specific sensor ID.
+The data is uploaded to the server as JSON, with server responses confirming success or failure.
+
+This approach to login proposed a significant issue.
+
 ### Challenge 1: Login Timeout
 
 Challenge 1: Login Timeout
-During the initial phase of data collection, we encountered a significant issue where the server would deny access after 15 minutes. As a result, while the local CSV file was updated successfully, the data upload to the server failed beyond this point. Upon investigation and consultation with other developers, as well as reviewing API documentation and best practices, we identified the root cause of the issue: the access token's expiration.
+During the initial phase of data collection mentioned above (Sensor Data Logging and Uploading Code), we encountered a significant issue where the server would deny access after 15 minutes. As a result, while the local CSV file was updated successfully, the data upload to the server failed beyond this point. Upon investigation and consultation with other developers, as well as reviewing API documentation and best practices, we identified the root cause of the issue: the access token's expiration.
 
 Initially, the server login process was implemented outside the upload_to_server code and was executed only once at the start of the 48-hour data collection process. This approach caused the access token, retrieved during the initial login, to expire after 15 minutes. Once the token expired, the server rejected further data upload requests, halting the process.
 

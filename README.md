@@ -82,7 +82,6 @@ Fig 1.2.3 The data as is stored within the API. For it to become readable, one w
 
 
 ### Record of Tasks
-# Record of Tasks
 
 | Task No | Planned Action                                | Planned Outcome                                                    | Time Estimate | Target Completion Date | Criteria   |
 |---------|----------------------------------------------|----------------------------------------------------------------------|---------------|-------------------------|------------|
@@ -117,66 +116,14 @@ Fig 1.2.3 The data as is stored within the API. For it to become readable, one w
 | 29      | Improve on client feedback to make the project more helpful | Work on the feedback that the client has given us in order to improve our project and help the client better. | 3 hours      | Dec 12                  | A,B,C,D |
 
 
-### Test Plan
-
-#### more potential
-
-| Test Type            | Target                                                                 | Procedure                                                                                                                   | Expected Outcome                                                                                              |
-|----------------------|------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| **Test 1**            | **Visual Representation of HL values (Local & Remote) for 48 hours**   | 1. Connect sensors to the Raspberry Pi:                                                                                     | Visual representation of Humidity, Temperature, and Atmospheric Pressure (HL) values for both Local and Remote locations for at least 48 hours. |
-|                      |                                                                        |   - BME280: VIN - 3.3V or 5V, GND - GND, SCL - GPIO 3, SDA - GPIO 2                                                          |                                                                                                               |
-|                      |                                                                        |   - DHT11: VCC - 3.3V, GND - GND, DATA - GPIO 17                                                                           |                                                                                                               |
-|                      |                                                                        | 2. Run `main.py` to collect data from sensors.                                                                              |                                                                                                               |
-|                      |                                                                        | 3. Run `extract_data.py` to generate time-series graphs for Humidity, Temperature, and Pressure (HL) values.              |                                                                                                               |
-|                      |                                                                        | 4. Verify that the graphs display time-series data for both Local and Remote locations over 48 hours.                      |                                                                                                               |
-| **Test 2**            | **Measure Local Variables with 3 Sensors**                            | 1. Place three sensors (e.g., BME280 and DHT11) in different parts of the dormitory.                                        | CSV file should show data from three sensors, confirming simultaneous data collection for the entire dormitory.|
-|                      |                                                                        | 2. Run `main.py` to collect data for all three sensors simultaneously.                                                     |                                                                                                               |
-|                      |                                                                        | 3. Open the generated CSV file and verify that data from all sensors is recorded.                                           |                                                                                                               |
-| **Test 3**            | **Mathematical Modelling for HL levels (Linear & Non-Linear)**         | 1. Ensure 48 hours of data has been collected and stored in the CSV file.                                                    | Both linear and non-linear models should be generated for each variable, including equations and graphs.       |
-|                      |                                                                        | 2. Run `modelling.py` to create linear and non-linear models for Humidity, Temperature, and Atmospheric Pressure (HL).     |                                                                                                               |
-|                      |                                                                        | 3. Verify that model equations and graphs are produced for both Local and Remote data.                                      |                                                                                                               |
-| **Test 4**            | **Comparative Analysis for HL levels**                                | 1. Collect at least 48 hours of data from sensors.                                                                           | Statistical analysis should produce accurate mean, standard deviation, minimum, maximum, and median values for all variables and locations.|
-|                      |                                                                        | 2. Run `statistics.py` to calculate and output the statistical values (mean, standard deviation, etc.) for both locations. |                                                                                                               |
-|                      |                                                                        | 3. Cross-check the results with a spreadsheet application for accuracy.                                                    |                                                                                                               |
-| **Test 5**            | **Data Storage and Backup to Remote Server**                          | 1. Run `main.py` to collect and store data in a CSV file.                                                                   | Data should be stored locally in the CSV file and uploaded to the remote server successfully.                  |
-|                      |                                                                        | 2. Verify that the data is saved in the CSV file by opening File Explorer on the Raspberry Pi.                             |                                                                                                               |
-|                      |                                                                        | 3. Run `checkifuploaded.py` to confirm that the data has been successfully uploaded to the server.                         |                                                                                                               |
-| **Test 6**            | **Prediction for the Subsequent 12 Hours for HL variables**           | 1. Collect 48 hours of data for training the predictive model.                                                              | Predictions for the next 12 hours should be generated and visualized for each variable, with accuracy checked.  |
-|                      |                                                                        | 2. Run `predict.py` to generate predictions for Humidity, Temperature, and Atmospheric Pressure (HL).                      |                                                                                                               |
-|                      |                                                                        | 3. Verify that predicted values are generated and plotted on graphs.                                                        |                                                                                                               |
-|                      |                                                                        | 4. Compare the predicted data with actual measurements after the 12-hour period for accuracy.                              |                                                                                                               |
-| **Test 7**            | **Poster Summary with Recommendations for HL levels**                | 1. Gather all generated graphs, models, and statistical analysis results.                                                   | A well-designed poster summarizing the project, including graphs, models, statistical analysis, and actionable recommendations for storage conditions should be created. |
-|                      |                                                                        | 2. Use a design tool like Canva or PowerPoint to create the poster.                                                         |                                                                                                               |
-|                      |                                                                        | 3. Include a clear summary of findings and actionable recommendations for optimal storage conditions.                      |                                                                                                               |
-|                      |                                                                        | 4. Review the poster for accuracy, clarity, and completeness.                                                              |                                                                                                               |
-
-
-### Potential test plan instead of other one
-
-| **Success Criteria** | **Description** | **Test Procedure** | **Expected Outcome** |
-|----------------------|-----------------|--------------------|---------------------|
-| **1** | Visual representation of Humidity, Temperature, and Atmospheric Pressure (HL) values for at least 48 hours (Local and Remote). | 1. Connect the BME280 and DHT11 sensors to the Raspberry Pi.<br>2. Power on the Raspberry Pi.<br>3. Run the `main.py` script to collect data for at least 48 hours.<br>4. Use `extract_data.py` to generate time-series graphs.<br>5. Verify graphs display data for Local and Remote locations. | Time-series graphs should show data for Humidity, Temperature, and Pressure (Local and Remote) over at least 48 hours. |
-| **2** | Measure Humidity, Temperature, and Atmospheric Pressure (HL) using 3 sensors in the dormitory. | 1. Place three BME280 sensors in different parts of the dormitory.<br>2. Connect all sensors to the Raspberry Pi.<br>3. Run the `main.py` script to collect data simultaneously.<br>4. Verify the CSV file contains data from all three sensors. | The CSV file should confirm measurements are collected simultaneously from all three sensors. |
-| **3** | Create mathematical models for Humidity, Temperature, and Atmospheric Pressure (HL) for Local and Remote locations. | 1. Collect at least 48 hours of data.<br>2. Run `modelling.py` to generate linear and non-linear models.<br>3. Verify that equations and graphs are generated for each variable. | Linear and non-linear models, including equations and graphs, should be generated for each variable (Local and Remote). |
-| **4** | Perform a comparative analysis for Humidity, Temperature, and Atmospheric Pressure (HL). | 1. Collect at least 48 hours of data.<br>2. Run `statistics.py` to calculate mean, standard deviation, minimum, maximum, and median.<br>3. Verify statistical values are computed correctly. | Statistical analysis should produce accurate mean, standard deviation, minimum, maximum, and median values. |
-| **5** | Store Local data in a CSV file and upload it to a remote server. | 1. Collect data using the procedure in Success Criteria 1.<br>2. Verify data is saved locally in a CSV file.<br>3. Run `upload_to_server.py` to upload the CSV file to a remote server.<br>4. Use `checkifuploaded.py` to confirm the upload. | Data should be stored locally and successfully uploaded to the remote server for backup. |
-| **6** | Provide a 12-hour prediction for Humidity, Temperature, and Atmospheric Pressure (HL). | 1. Collect at least 48 hours of data.<br>2. Run `predict.py` to generate 12-hour predictions.<br>3. Verify predicted values and visualizations.<br>4. Compare predictions with actual subsequent measurements. | 12-hour predictions for each variable should be generated, visualized, and show trends and anticipated values. |
-| **7** | Create a poster summarizing visual representations, models, analysis, and recommendations. | 1. Compile outputs from previous procedures.<br>2. Use a design tool to create the poster.<br>3. Include visual representations, analysis, models, and recommendations.<br>4. Review for clarity, accuracy, and visual appeal. | A well-designed poster summarizing the project, including graphs, models, analysis, and actionable recommendations, should be created. |
-
-
-# Test Plan
-
-
-| **Test Type**           | **Target**                                                                                  | **Procedure**                                                                                                                                                                                                                     | **Expected Outcome**                                                                                                                                                       |
-|--------------------------|---------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Connect sensors & power  | Connect BME280 and DHT11 sensors to Raspberry Pi.                                          | **BME280:**<br>VIN - 3.3V or 5V (2C1R)<br>GND - GND (2C3R)<br>SCL - GPIO 3 (1C2R)<br>SDA - GPIO 2 (1C3R)<br><br>**DHT11:**<br>VCC - 3.3V (1C1R)<br>GND - GND (1C4R)<br>DATA - GPIO (1C5R)<br> Connect the micro-USB cable to the charging brick and a power source. | Sensors should be securely connected to the Raspberry Pi, ready for data collection.                                                                                      |
-| Find Raspberry Pi IP     | Locate the IP address of the Raspberry Pi.                                                 | **Method 1: Using Angry IP Scanner**<br>1. Install Angry IP Scanner on your computer.<br>2. Open the scanner and click "Start." <br>3. Locate the Raspberry Pi in the list of detected devices by its hostname.<br><br>**Method 2: Using a Display**<br>1. Connect the Raspberry Pi to a monitor and keyboard.<br>2. Hover over the Wi-Fi symbol in the taskbar.<br>3. Note the displayed IP address. | The Raspberry Pi’s IP address should be successfully identified for remote access.                                                                                          |
-| Connect to Raspberry Pi  | Access Raspberry Pi desktop remotely using VNC Viewer.                                     | Install VNC Viewer on your computer. <br>Open VNC Viewer.<br>Type in the Raspberry Pi’s IP address.<br>Enter username: **MIKEANDUNANDI** and password: **ANYTHINGMEMORABLE123**.                                                                                          | The desktop of the Raspberry Pi should be displayed.                                                                                                                       |
-| Run main.py              | Connect to the server and collect sensor data.                                             | Open the terminal and type the following commands line by line:<br>`python3 -m venv venv`<br>`source venv/bin/activate`<br>`python3 main.py`<br>Every minute, the terminal should display the data collected and verification messages. | A message displaying data from each sensor should pop up on the terminal every minute, along with verification statements.                                                 |
-| Check CSV file           | Verify if data has been added to the CSV file after running the main code.                 | Open the File Explorer on the Raspberry Pi.<br>Navigate to the directory containing the CSV file.<br>Open the CSV file and confirm that new data entries have been added.                                                         | The CSV file should contain newly added data entries after running the main code.                                                                                         |
-| Check API upload         | Verify if the data is uploaded to the API.                                                 | Open PyCharm.<br>Run `checkifuploaded.py`.                                                                                                                                                                                        | The program should confirm whether the collected data has been successfully uploaded to the API.                                                                           |
-| Model the data           | Create graphs of collected and predicted data.                                             | Open PyCharm.<br>Run `extract_data.py`.                                                                                                                                                                                          | The program should produce 6 graphs:<br>- 2 for Temperature<br>- 2 for Humidity<br>- 2 for Pressure (collected and predicted).                                             |
-| Produce statistics       | Calculate and display minimum, maximum, and average values for each sensor.                | Open PyCharm.<br>Run `statistics.py`.                                                                                                                                                                                            | The program should produce the minimum, maximum, and average values for each sensor.                                                                                      |
+\begin{table}[]
+\begin{tabular}{llllllll}
+ &  &  &  &  &  &  &  \\
+ &  &  &  &  &  &  &  \\
+ &  &  &  &  &  &  &  \\
+ &  &  &  &  &  &  & 
+\end{tabular}
+\end{table}
 
 ## Criteria C: Development
 
@@ -226,7 +173,7 @@ def initialize_bme280():
         print(f"Error initializing BME280: {e}")
         return None, None
 ```
-We assumed the BME280 would always initialize successfully. However, hardware malfunctions or incorrect connections could cause failures, so we added exception handling to manage errors gracefully.
+Given the fact that it's more reliable than the DHT, we assumed the BME280 would always initialize successfully. However, hardware malfunctions or incorrect connections could cause failures, so we added exception handling to manage errors gracefully.
 
 **2. Sensor Data Collection
 **
@@ -357,6 +304,8 @@ This approach to login proposed a significant issue.
 
 ### Challenge 1: Login Timeout
 
+![1000140357](https://github.com/user-attachments/assets/b2d0d44d-5e18-4f04-bec8-2bd13b19b379)
+
 Challenge 1: Login Timeout
 During the initial phase of data collection mentioned above (Sensor Data Logging and Uploading Code), we encountered a significant issue where the server would deny access after 15 minutes. As a result, while the local CSV file was updated successfully, the data upload to the server failed beyond this point. Upon investigation and consultation with other developers, as well as reviewing API documentation and best practices, we identified the root cause of the issue: the access token's expiration.
 
@@ -471,6 +420,7 @@ The temperature data is fitted to a sine function to capture periodic patterns l
 
 ### References for Criteria C: Helpful sources during our project development
 [This video helped us understand how to connect the sensors to the Raspberry Pi correctly](https://youtu.be/T7L7WMHbhY0?si=WClVVa0leFPAXtXl)
+[For troubleshooting code and connection](https://raspberrypi.stackexchange.com/questions/117154/dht-11-sensor-with-raspberry-pi)
 
 ## Criteria D: Functionality
 A 7 min video demonstrating the proposed solution with narration - sent

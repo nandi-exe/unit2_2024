@@ -58,8 +58,9 @@ Fig 1.1: A flowchart showing how our sensor registration code is implemented. It
 Fig 1.2: A flowchart showcasing how our data is saved to the local csv file (sensor_data.csv).
 
 ### Flow Diagram 3
-![image](https://github.com/user-attachments/assets/8c95ecbe-df9c-4ce2-a2ef-bdda07354d5e)
-Fig 1.3: A flowchart showcasing how our data is saved to the local API .
+![image](https://github.com/user-attachments/assets/c4efa4a5-b884-4ad1-8bcd-20a8bd77204f)
+
+Fig 1.3: A flowchart showcasing how the relevant data is filtered from the API.
 
 
 Both Fig 1.2 and 1.3 include logging in at every iteration, because the login token would expire after 15 iterations, so we decided to add that step to every upload (explained more in Criteria C, commented code) just to play it safe.

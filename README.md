@@ -205,20 +205,40 @@ During the initial phase of data collection, we encountered a significant issue 
 Initially, the server login process was implemented outside the upload_to_server code and was executed only once at the start of the 48-hour data collection process. This approach caused the access token, retrieved during the initial login, to expire after 15 minutes. Once the token expired, the server rejected further data upload requests, halting the process.
 
 #### Solution
-To resolve this issue, we refactored the login mechanism by integrating the server login code directly into the upload_to_server module. This adjustment ensured that the login credentials were refreshed with each iteration of the data upload process. As a result, a new access token was obtained during every data transfer, preventing timeout errors and enabling efficient and uninterrupted data uploads.
+To resolve this issue, we modified the code to refresh the access token during every upload iteration by moving the server login logic inside the upload_to_server module. This ensured that a new access token was generated for every upload cycle, allowing the data upload process to continue without interruption.
 
 Here is the revised code snippet that implements the solution:
 
 ```
  try:
-        login_response = requests.post(f'http://{server_ip}/login', json=user)
-        cookie = login_response.json().get('access_token')
-        if not cookie:
-            raise ValueError("Failed to retrieve access token. Check login credentials.")
-
-        auth = {'Authorization': f'Bearer {cookie}'}
+    # Send a POST request to the server's login endpoint with user credentials
+    login_response = requests.post(f'http://{server_ip}/login', json=user)
+    
+    # Extract the access token from the server's JSON response
+    cookie = login_response.json().get('access_token')
+    
+    # Check if the access token was successfully retrieved
+    if not cookie:
+        raise ValueError("Failed to retrieve access token. Check login credentials.")
+    
+    # Create the authentication header using the retrieved access token
+    auth = {'Authorization': f'Bearer {cookie}'}
 
 ```
+**How the code works:
+**
+1. Login Request:
+The requests.post method sends a POST request to the server's login endpoint (http://{server_ip}/login) with the user's credentials. This step initiates the authentication process.
+2. Response Parsing:
+The server responds with a JSON payload containing the access_token. The code extracts this token using the .json().get('access_token') method.
+3. Validation:
+If the token is not found in the response, an exception is raised with an error message, alerting the user to check the login credentials.
+4. Authorization Header:
+The access token is embedded into an Authorization header in the format Bearer <access_token>. This header is included in all subsequent requests to authenticate with the server.
+
+By placing this code in the upload_to_server module, it ensures that a fresh access token is generated during every iteration of the upload process. This prevents timeout errors and guarantees that all data is successfully uploaded during extended data collection sessions.
+This solution effectively addressed the login timeout issue. The updated implementation allows the system to authenticate dynamically during each data upload cycle, ensuring smooth and uninterrupted server communication over long durations.
+
 
 
 ### References for Criteria C: Helpful sources during our project development

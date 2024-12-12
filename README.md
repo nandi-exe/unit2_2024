@@ -51,26 +51,33 @@ Fig. 3 System diagram (HL+) for the proposed system to visualize and analyze tem
 
 ### Flow Diagram 1
 ![image](https://github.com/user-attachments/assets/3c5fbc87-14d6-4479-8573-7bd1673e8dc8)
-Fig 1.1: A flowchart showing how our sensor registration code is implemented. It ensures that each sensor is registered to the API, giving us a place to send our sensor data once it has been collected.
+Fig 1.1.1: A flowchart showing how our sensor registration code is implemented. It ensures that each sensor is registered to the API, giving us a place to send our sensor data once it has been collected.
 ### Flow Diagram 2
 ![image](https://github.com/user-attachments/assets/af8eda74-9a3a-46e0-b612-4b913ffbdccb)
 
-Fig 1.2: A flowchart showcasing how our data is saved to the local csv file (sensor_data.csv).
+Fig 1.1.2: A flowchart showcasing how our data is saved to the local csv file (sensor_data.csv).
 
 ### Flow Diagram 3
 ![image](https://github.com/user-attachments/assets/c4efa4a5-b884-4ad1-8bcd-20a8bd77204f)
 
-Fig 1.3: A flowchart showcasing how the relevant data is filtered from the API.
+Fig 1.1.3: A flowchart showcasing how the relevant data is filtered from the API.
 
 
-Both Fig 1.2 and 1.3 include logging in at every iteration, because the login token would expire after 15 iterations, so we decided to add that step to every upload (explained more in Criteria C, commented code) just to play it safe.
+Both Fig 1.1.2 and 1.1.3 include logging in at every iteration, because the login token would expire after 15 iterations, so we decided to add that step to every upload (explained more in Criteria C, commented code) just to play it safe.
 
 ### How is the data stored and managed?
 The collected data is stored locally in a CSV file for structured access and offline analysis. This format allows for easy reading, modification, and integration with data-processing tools. To ensure data persistence and accessibility, the CSV data is periodically uploaded to an API server. This two-tiered approach balances local storage for quick access with remote storage for backup and broader analysis, providing a reliable and scalable system for managing the collected environmental data.
+
+<img width="881" alt="image" src="https://github.com/user-attachments/assets/0312f0c4-62a1-4b52-9fd8-e863f8cf8e2d" />
+Fig 1.2.1 The data as stored in the csv file, sensor_data.csv".
+
 ![image](https://github.com/user-attachments/assets/cc73334c-0f75-49a0-a3fc-f52a470ac78b)
+Fig 1.2.2 The table formed using the data for the client's readability.
 
 The remote collected data is stored in an API (explained more in the system diagram), allowing easy access.
+
 ![image](https://github.com/user-attachments/assets/a02f4aea-67ab-4e4c-af3b-b7aa13576b4a)
+Fig 1.2.3 The data as is stored within the API. For it to become readable, one would need to extract it from the server using a request.
 
 
 

@@ -53,7 +53,7 @@ Fig. 3 System diagram (HL+) for the proposed system to visualize and analyze tem
 ![image](https://github.com/user-attachments/assets/3c5fbc87-14d6-4479-8573-7bd1673e8dc8)
 Fig 1.1.1: A flowchart showing how our sensor registration code is implemented. It ensures that each sensor is registered to the API, giving us a place to send our sensor data once it has been collected.
 ### Flow Diagram 2
-![image](https://github.com/user-attachments/assets/0b187fba-835d-449a-84d9-b1309bd713c2)
+![image](https://github.com/user-attachments/assets/96fda729-8256-4f10-955d-41ca91335afd)
 Fig 1.1.2: A flowchart showcasing how our data is saved to the local csv file (sensor_data.csv).
 
 ### Flow Diagram 3

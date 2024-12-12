@@ -1,8 +1,8 @@
 # Unit 2: A Distributed Weather Station for ISAK
 
 ## Criteria A: Planning
+![Weathering With GIF - Weathering With You - Discover   Share GIFs](https://github.com/user-attachments/assets/e3c8283b-9520-4a6f-8495-1db013266949)
 
-![image](https://github.com/user-attachments/assets/80014a93-95d6-4cae-b59c-f98b1bb4f7df)
 
 ### Problem Definition
 The client, Mr. X, is a boarding student at a local international school and a passionate coffee enthusiast. As a dedicated collector of premium coffee beans, he takes great pride in preserving their rich aroma, complex flavors, and overall quality. His deep appreciation for coffee's nuanced characteristics drives his attention to detail in maintaining the integrity of his collection. However, Mr. X has faced persistent challenges with fluctuating humidity levels in his pantry, which have led to moisture absorption, mold growth, and a noticeable decline in freshness. These issues have significantly compromised the quality of his carefully curated beans, undermining his ability to fully enjoy their distinct profiles. Determined to protect his collection, Mr. X has made it a top priority to establish optimal storage conditions. Recognizing the detrimental impact of inconsistent humidity on his coffee beans, he is actively seeking a reliable and effective solution to safeguard their unique qualities. By addressing these environmental factors, Mr. X hopes to preserve the full essence of his beans and elevate his coffee-collecting experience.

@@ -197,6 +197,28 @@ Sending serialized sensor data to a remote server.
 8. Accessing API data and readings
 Fetching stored data for local use and further analysis.
 
+### Challenge 1: Login Timeout
+
+During our first round of data collection we realised that after 15 minutes, the server would deny us access to the server, resulting in only the csv file being updated and not the server. After consulting other project developers, and reading (some kind of source about APIs) we realised the problem was in the access token. 
+
+After compiling the modules into the main file, we had left the server login code outside of the “send to server” module. By doing so, the code only logged into the server once throughout the entire 48 hours. What we didn’t realise was that the access token gained from this initial login in  timed out after 15 iterations/minutes, which resulted in the data upload being halted once this time frame elapsed.
+
+Solution
+
+In order to combat this error, we shifted the following code into the “upload_to_server” module. With this change, each iteration of the upload had the Raspberry refresh the login credentials, preventing the time_out error we were receiving and allowing all the data to upload efficiently.
+
+```
+ try:
+        login_response = requests.post(f'http://{server_ip}/login', json=user)
+        cookie = login_response.json().get('access_token')
+        if not cookie:
+            raise ValueError("Failed to retrieve access token. Check login credentials.")
+
+        auth = {'Authorization': f'Bearer {cookie}'}
+
+```
+
+
 ### References for Criteria C: Helpful sources during our project development
 [This video helped us understand how to connect the sensors to the Raspberry Pi correctly](https://youtu.be/T7L7WMHbhY0?si=WClVVa0leFPAXtXl)
 

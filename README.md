@@ -310,6 +310,7 @@ The temperature data is fitted to a sine function to capture periodic patterns l
 
 
 
+
 ### References for Criteria C: Helpful sources during our project development
 [This video helped us understand how to connect the sensors to the Raspberry Pi correctly](https://youtu.be/T7L7WMHbhY0?si=WClVVa0leFPAXtXl)
 
